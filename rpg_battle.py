@@ -27,9 +27,7 @@ def battle(player, enemy):
             player.attack(enemy)
             if enemy.health <= 0:
                 print(f"The {enemy.race} is dead.")
-            import rpg_classes
-            Zombie = rpg_classes.Zombie
-            if isinstance(enemy, Zombie): # enemy is a zombie and it can't be killed. 
+            if Helper.is_zombie(): # enemy is a zombie and it can't be killed. 
                 enemy.undead()
                 if count == 3:
                     print("\nThis zombie doesn't seem to be taking damage! What should we do?")

@@ -12,15 +12,23 @@ from rpg_functions import *
 
 #todo add OnePunchMan class that kills everything in 1 hit (make his attack power "over 9000" and print out something referring to that) and can't die
 
+
+
+                        # class Character:
+
+# class Player(Character):              # class Enemy(Character):
+
+# class Hero(Player):                   # class Zombie(Enemy):
+
 class Character:
     def __init__(self, race, name, health, attack_power, to_hit, armor):
-        #todo add special ability points
         self.race = race
         self.name = name
         self.health = health
         self.attack_power = attack_power
         self.to_hit = to_hit
         self.armor = armor
+
 
     def alive(self):
         alive = True
@@ -38,12 +46,22 @@ class Character:
     def print_status(self):
         print(f"{self.name} - HP: {self.health}, Attack: {self.attack_power}, To-hit: {self.to_hit}, AC: {self.armor}")
 
+
+
+
+
+
+class Player(Character):
+    def __init__(self, race, name, health, attack_power, to_hit, armor):
+        super().__init__(race, name, health, attack_power, to_hit, armor)
+        #todo add special ability points
+
     def spy(self, target):
         print(f"{target.race} - HP: {target.health}, AC: {target.armor}")
 
 
 
-class Hero(Character):
+class Hero(Player):
     def __init__(self, race, name, health = 12, attack_power = 3, to_hit = 1, armor = 10):
         super().__init__(race, name, health, attack_power, to_hit, armor)
 
@@ -63,7 +81,7 @@ class Hero(Character):
 
 
 
-class Medic(Character):
+class Medic(Player):
     def __init__(self, race, name, health = 10, attack_power = 2, to_hit = 0, armor = 8):
         super().__init__(race, name, health, attack_power, to_hit, armor)
 
@@ -80,7 +98,7 @@ class Medic(Character):
 
 
 
-class Rogue(Character):
+class Rogue(Player):
     def __init__(self, race, name, health = 8, attack_power = 2, to_hit = 3, armor = 9):
         super().__init__(race, name, health, attack_power, to_hit, armor)
 
@@ -101,28 +119,9 @@ class Rogue(Character):
 
 
 
-class Enemy:
-    def __init__(self, race, name, health, attack_power, to_hit, armor, bounty):
-        self.race = race
-        self.name = name
-        self.health = health
-        self.attack_power = attack_power
-        self.to_hit = to_hit
-        self.armor = armor
-        self.bounty = bounty
-
-    def alive(self):
-        alive = True
-        if self.health <= 0:
-            alive = False
-        return alive
-    
-    def attack(self, target):
-        if roll_to_hit(self, target):
-            target.health -= self.attack_power
-            print(f"The {self.race} attacks and does {self.attack_power} damage to {target.name}.")
-        else:
-            print(f"The {self.race}'s attack misses.")
+class Enemy(Character):
+    def __init__(self, race, name, health, attack_power, to_hit, armor):
+        super().__init__(race, name, health, attack_power, to_hit, armor)
 
     def rogue_evade_attack(self, target):
         if roll_to_hit(self, target):
@@ -131,9 +130,6 @@ class Enemy:
             print(f"{target.name} evades and takes half-damage ({math.trunc(self.attack_power/2)}).")
         else:
             print(f"The {self.race}'s attack misses.")
-    
-    def print_status(self):
-        print(f"{self.name} - HP: {self.health}, Attack: {self.attack_power}, To-hit: {self.to_hit}, AC: {self.armor}, bounty: {self.bounty}")
 
 
 
@@ -198,6 +194,9 @@ class Helper:
                 print(f"{attacker.name} rolled a {roll + attacker.to_hit} which misses {target.name}'s armor of {target.armor}")
             else:
                 print(f"The {attacker.race} rolled a {roll + attacker.to_hit} which misses {target.name}'s armor of {target.armor}")
+        
+    def is_zombie(monster):
+        return isinstance(monster, Zombie)
 
 
 

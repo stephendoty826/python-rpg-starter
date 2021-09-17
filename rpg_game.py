@@ -9,7 +9,6 @@ Zombie = rpg_classes.Zombie
 Shadow = rpg_classes.Shadow
 Fire_Serpent = rpg_classes.Fire_Serpent
 
-
 from rpg_battle import *
 
 from rpg_functions import *
