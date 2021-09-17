@@ -1,6 +1,6 @@
 from random import *
 
-from rpg_classes import *
+# from rpg_classes import *
 
 #todo implement multiple heros/enemies?
 
@@ -27,13 +27,13 @@ def battle(player, enemy):
             player.attack(enemy)
             if enemy.health <= 0:
                 print(f"The {enemy.race} is dead.")
+            import rpg_classes
+            Zombie = rpg_classes.Zombie
             if isinstance(enemy, Zombie): # enemy is a zombie and it can't be killed. 
                 enemy.undead()
                 if count == 3:
                     print("\nThis zombie doesn't seem to be taking damage! What should we do?")
                     count = 0
-            # if isinstance(enemy, Shadow): # enemy is a shadow and is very hard to hit (10% chance)
-            #     enemy.evade()
         elif raw_input == "2":
             player.spy(enemy)
             print()
@@ -46,9 +46,20 @@ def battle(player, enemy):
             print(f"Invalid input {raw_input}")
         if enemy.health > 0:
             # Enemy attacks hero
+            import rpg_classes
+            # Hero = rpg_classes.Hero
+            # Medic = rpg_classes.Medic
+            # Rogue = rpg_classes.Rogue
+            if isinstance(player, Hero):
+                enemy.attack(player)
             if isinstance(player, Medic):
                 player.heal()
-            enemy.attack(player)
+                enemy.attack(player)
+            if isinstance(player, Rogue):
+                if player.chance_evade():
+                    enemy.rogue_evade_attack(player)
+                else:
+                    enemy.attack(player)
             if player.health <= 0:
-                print("You are dead.")
+                print(f"{player.name} is dead.")
         combat_turn += 1
