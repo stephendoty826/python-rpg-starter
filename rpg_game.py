@@ -1,7 +1,7 @@
 # from rpg_classes import *
 import rpg_classes
 
-Hero = rpg_classes.Hero
+Fighter = rpg_classes.Fighter
 Medic = rpg_classes.Medic
 Rogue = rpg_classes.Rogue
 Goblin = rpg_classes.Goblin
@@ -13,19 +13,19 @@ from rpg_battle import *
 
 from rpg_functions import *
 
-human_hero = Hero("human", "Hero", health = 30)
+human_fighter = Fighter("human", "Baden", health = 50)
 
-dwarven_medic = Medic("dwarf", "Medic", health = 30)
+dwarven_medic = Medic("dwarf", "Thigrel", health = 50)
 
-elven_rogue = Rogue("elven", "Rogue", health = 30)
+elven_rogue = Rogue("elven", "Khiiral", health = 50)
 
-goblin = Goblin(health = 24)
+goblin = Goblin(name = "Goblin", health = 35)
 
-zombie = Zombie()
+zombie = Zombie(name = "Zombie")
 
-shadow = Shadow()
+shadow = Shadow(name = "Shadow")
 
-battle(elven_rogue, goblin)
+battle(elven_rogue, shadow)
 
 # roll_to_hit(elven_rogue, goblin)
 

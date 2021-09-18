@@ -18,7 +18,7 @@ from rpg_functions import *
 
 # class Player(Character):              # class Enemy(Character):
 
-# class Hero(Player):                   # class Zombie(Enemy):
+# class Fighter(Player):                   # class Goblin(Enemy):
 
 class Character:
     def __init__(self, race, name, health, attack_power, to_hit, armor):
@@ -29,20 +29,28 @@ class Character:
         self.to_hit = to_hit
         self.armor = armor
 
-
+    def attack(self, target):
+        roll = randint(1, 20)
+        if (roll + self.to_hit) >= target.armor:
+            if isinstance(self, Player):
+                print(f"HIT! {self.name} rolled a {roll + self.to_hit} which hits the {target.race}, dealing {self.attack_power} damage.\n")
+            else:
+                print(f"HIT! The {self.race} rolled a {roll + self.to_hit} which hits {target.name}, dealing {self.attack_power} damage.\n")
+            target.health -= self.attack_power
+            return True
+        else:
+            if isinstance(self, Player):
+                print(f"MISS! {self.name} rolled a {roll + self.to_hit} which misses {target.race}.\n")
+            else:
+                print(f"MISS! The {self.race} rolled a {roll + self.to_hit} which misses {target.name}.\n")
+            return False
+    
     def alive(self):
         alive = True
         if self.health <= 0:
             alive = False
         return alive
-    
-    def attack(self, target):
-        if roll_to_hit(self, target):
-            target.health -= self.attack_power
-            print(f"{self.name} attacks and does {self.attack_power} damage to the {target.name}.")
-        else:
-            print(f"{self.name}'s attack misses.")
-    
+
     def print_status(self):
         print(f"{self.name} - HP: {self.health}, Attack: {self.attack_power}, To-hit: {self.to_hit}, AC: {self.armor}")
 
@@ -56,26 +64,43 @@ class Player(Character):
         super().__init__(race, name, health, attack_power, to_hit, armor)
         #todo add special ability points
 
-    def spy(self, target):
-        print(f"{target.race} - HP: {target.health}, AC: {target.armor}")
+    def spy(self, enemy):
+        print(f"{self.name} uses spy on the {enemy.race} - HP: {enemy.health}, AC: {enemy.armor}")
 
 
 
-class Hero(Player):
+class Enemy(Character):
+    def __init__(self, race, name, health, attack_power, to_hit, armor, bounty):
+        super().__init__(race, name, health, attack_power, to_hit, armor)
+        self.bounty = bounty
+
+    #todo need to fix. roll_to_hit() was replaced with attack in Character class. Also redo wording to match other attacks. 
+    def rogue_evade_attack(self, player):
+        if Character.attack(self, player):
+            print(f"{player.name} quickly dodges and only takes half-damage ({math.trunc(self.attack_power/2)})\n.")
+            player.health += round(self.attack_power/2)
+
+
+
+
+
+
+class Fighter(Player):
     def __init__(self, race, name, health = 12, attack_power = 3, to_hit = 1, armor = 10):
         super().__init__(race, name, health, attack_power, to_hit, armor)
 
-    def attack(self, target):
-        if roll_to_hit(self, target):
-            crit_chance = chance(1, 5)
+    def attack(self, enemy):
+        roll = randint(1, 20)
+        if (roll + self.to_hit) >= enemy.armor:
+            crit_chance = randint(1,5)
             if crit_chance == 5:
-                target.health -= self.attack_power * 2
-                print(f"CRITICAL HIT! The {self.name} strikes hard dealing {self.attack_power * 2} damage to the {target.race}.")
+                enemy.health -= self.attack_power * 2
+                print(f"HIT! {self.name} rolled a {roll + self.to_hit} which hits the {enemy.race}. {self.name}'s sword strikes true dealing {self.attack_power * 2} damage.\n")
             else:
-                target.health -= self.attack_power
-                print(f"{self.name} attacks and does {self.attack_power} damage to the {target.race}.")
+                enemy.health -= self.attack_power
+                print(f"HIT! {self.name} rolled a {roll + self.to_hit} which hits the {enemy.race}, dealing {self.attack_power} damage.\n")
         else:
-            print(f"{self.name}'s attack misses.")
+            print(f"MISS! {self.name} rolled a {roll + self.to_hit} which misses the {enemy.race}.\n")
 
     #todo: add auto crit attack which takes special ability points...
 
@@ -86,11 +111,11 @@ class Medic(Player):
         super().__init__(race, name, health, attack_power, to_hit, armor)
 
     def heal(self):
-        healing_chance = chance(1, 5)
+        healing_chance = randint(1,5)
         if healing_chance == 5:
             healing = chance(1, 3)
             self.health += healing
-            print(f"{self.name} uses healing to regain {healing} HP!")
+            print(f"{self.name} uses healing to regain {healing} HP!\n")
 
     # todo add first_add function which takes special ability points...
     # def first_aid(self):
@@ -103,8 +128,7 @@ class Rogue(Player):
         super().__init__(race, name, health, attack_power, to_hit, armor)
 
     def chance_evade(self):
-        evade_chance = chance(1, 5)
-        print(f"evade chance = {evade_chance}")
+        evade_chance = randint(1,5)
         if evade_chance == 5:
             return True
         else: 
@@ -119,20 +143,6 @@ class Rogue(Player):
 
 
 
-class Enemy(Character):
-    def __init__(self, race, name, health, attack_power, to_hit, armor):
-        super().__init__(race, name, health, attack_power, to_hit, armor)
-
-    def rogue_evade_attack(self, target):
-        if roll_to_hit(self, target):
-            target.health -= math.trunc(self.attack_power/2)
-            print(f"The {self.race} attacks and does {self.attack_power} damage to {target.name}.")
-            print(f"{target.name} evades and takes half-damage ({math.trunc(self.attack_power/2)}).")
-        else:
-            print(f"The {self.race}'s attack misses.")
-
-
-
 class Goblin(Enemy):
     def __init__(self, race = "goblin", name = "Goblin", health = 7, attack_power = 2, to_hit = 0, armor = 9, bounty = 5):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty)
@@ -140,17 +150,17 @@ class Goblin(Enemy):
     #todo: add special abilities (critical hit) that can run "randomly" (1 in 8) per battle
 
 class Zombie(Enemy):
-    def __init__(self, race = "zombie", name = "Zombie", health = 50, attack_power = 1, to_hit = -2, armor = 6, bounty = 15):
+    def __init__(self, race = "zombie", name = "Zombie", health = 25, attack_power = 1, to_hit = -2, armor = 6, bounty = 15):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty)
         
     def undead(self):
-        if self.health < 50:
-            self.health = 50
+        if self.health <= 0:
+            self.health = 25
 
     #todo: add special abilities (bite that poisons you and you take 1 damage for 3 turns) that can run "randomly" (1 in 8) per battle  
 
 class Shadow(Enemy):
-    def __init__(self, race = "shadow", name = "Shadow", health = 1, attack_power = 4, to_hit = 3, armor = 18, bounty = 8):
+    def __init__(self, race = "shadow", name = "Shadow", health = 1, attack_power = 4, to_hit = 3, armor = 19, bounty = 8):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty)
     
     #todo: add special abilities (something that skips your turn?) that can run "randomly" (1 in 8) per battle
@@ -178,25 +188,30 @@ class SuperTonic:
 
 
 class Helper:
-    def roll_to_hit(attacker, target):
-        roll = randint(1, 20)
-        print(roll)
-        if (roll + attacker.to_hit) >= target.armor:
-            if isinstance(attacker, Hero) or isinstance(attacker, Medic) or isinstance(attacker, Rogue):
-                print(f"{attacker.name} is a Character")
-                print(f"{attacker.name} rolled a {roll + attacker.to_hit} which hits {target.name}'s armor of {target.armor}")
-            else:
-                print(f"The {attacker.race} rolled a {roll + attacker.to_hit} which hits {target.name}'s armor of {target.armor}")
-            return True
-        else:
-            if isinstance(attacker, Hero) or isinstance(attacker, Medic) or isinstance(attacker, Rogue):
-                print(f"{attacker.name} is a Character")
-                print(f"{attacker.name} rolled a {roll + attacker.to_hit} which misses {target.name}'s armor of {target.armor}")
-            else:
-                print(f"The {attacker.race} rolled a {roll + attacker.to_hit} which misses {target.name}'s armor of {target.armor}")
         
-    def is_zombie(monster):
-        return isinstance(monster, Zombie)
+    def is_fighter(player):
+        return isinstance(player, Fighter)
+
+    def is_medic(player):
+        return isinstance(player, Medic)
+
+    def is_rogue(player):
+        return isinstance(player, Rogue)
+
+    def is_goblin(enemy):
+        return isinstance(enemy, Goblin)
+
+    def is_zombie(enemy):
+        return isinstance(enemy, Zombie)
+
+    def is_shadow(enemy):
+        return isinstance(enemy, Shadow)
+
+    def is_fire_serpent(enemy):
+        return isinstance(enemy, Fire_Serpent)
+
+    def random_health(num1, num2):
+        return randint(num1, num2)
 
 
 

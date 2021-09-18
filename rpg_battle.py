@@ -1,12 +1,11 @@
 from random import *
 
-# from rpg_classes import *
+from rpg_classes import Helper
 
 #todo implement multiple heros/enemies?
 
 def battle(player, enemy):
     combat_turn = 1
-    count = 1
     while enemy.alive() and player.alive():
         print()
         player.print_status()
@@ -27,11 +26,11 @@ def battle(player, enemy):
             player.attack(enemy)
             if enemy.health <= 0:
                 print(f"The {enemy.race} is dead.")
-            if Helper.is_zombie(): # enemy is a zombie and it can't be killed. 
-                enemy.undead()
-                if count == 3:
-                    print("\nThis zombie doesn't seem to be taking damage! What should we do?")
-                    count = 0
+                if Helper.is_zombie(enemy): # enemy is a zombie and it can't be killed. 
+                    print(enemy.health)
+                    enemy.undead()
+                    print("\nMoments later, the zombie slowly rises to it's feet again. This thing just won't die.")
+                    print(enemy.health)
         elif raw_input == "2":
             player.spy(enemy)
             print()
@@ -43,17 +42,13 @@ def battle(player, enemy):
         else:
             print(f"Invalid input {raw_input}")
         if enemy.health > 0:
-            # Enemy attacks hero
-            import rpg_classes
-            # Hero = rpg_classes.Hero
-            # Medic = rpg_classes.Medic
-            # Rogue = rpg_classes.Rogue
-            if isinstance(player, Hero):
+            # Enemy attacks player
+            if Helper.is_fighter(player):
                 enemy.attack(player)
-            if isinstance(player, Medic):
+            if Helper.is_medic(player):
+                enemy.attack(player)
                 player.heal()
-                enemy.attack(player)
-            if isinstance(player, Rogue):
+            if Helper.is_rogue(player):
                 if player.chance_evade():
                     enemy.rogue_evade_attack(player)
                 else:
