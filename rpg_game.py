@@ -34,6 +34,27 @@ shadow = Shadow(name = "Shadow")
 
 fire_serpent = Fire_Serpent(name = "Fire Serpent")
 
-battle(human_fighter, zombie)
+print()
+
+while True:
+    print("What do you want to do?")
+    print("1. Fight a monster.")
+    print("2. Go to town.")
+    print("3. Quit.")
+    # print("3. Explore.")
+    print("> ", end=' ')
+    raw_input = input()
+    if raw_input == "1":
+        battle(human_fighter, goblin)
+    elif raw_input == "2":
+        # go to town
+        pass
+    elif raw_input == "3":
+        print("Thanks for playing.")
+        break
+    else:
+        print(f"Invalid input {raw_input}")
+
+
 
 #todo have shop with option to view info of item. 

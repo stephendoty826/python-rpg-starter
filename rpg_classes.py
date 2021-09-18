@@ -28,6 +28,7 @@ class Character:
         self.attack_power = attack_power
         self.to_hit = to_hit
         self.armor = armor
+        self.max_hp = self.health
 
     def attack(self, target):
         roll = randint(1, 20)
@@ -60,9 +61,10 @@ class Character:
 
 
 class Player(Character):
-    def __init__(self, race, name, health, attack_power, to_hit, armor, inventory = []):
+    def __init__(self, race, name, health, attack_power, to_hit, armor, coin_purse = 0, inventory = []):
         super().__init__(race, name, health, attack_power, to_hit, armor)
         #todo add special ability points
+        self.coin_purse = coin_purse
         self.inventory = inventory
 
     def spy(self, enemy):
@@ -153,8 +155,6 @@ class Goblin(Enemy):
 class Zombie(Enemy):
     def __init__(self, race = "zombie", name = "Zombie", health = randint(20, 25), attack_power = randint(1, 2), to_hit = randint(-2, -1), armor = randint(6, 8), bounty = 15):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty)
-        self.health = health
-        self.max_hp = health
 
     def undead(self):
         if self.health <= 0:
@@ -183,7 +183,13 @@ class Fire_Serpent(Enemy):
 class Store:
 
     def use_tonic(player):
-        player.health += randint(1, 4) * 2 + 4
+        regen = randint(1, 4) * 2 + 4
+        if regen + player.health > player.max_hp:
+            player.health = player.max_hp
+            print(f"{player.name} uses Super Tonic is back at Max HP.")
+        else:
+            player.health += regen
+            print(f"{player.name} uses Super Tonic and regains {regen} HP.")
 
     def use_firebomb(player, enemy):
         roll = randint(1, 20)

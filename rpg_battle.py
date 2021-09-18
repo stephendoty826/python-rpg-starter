@@ -11,6 +11,7 @@ def battle(player, enemy):
     combat_turn = 1
     while enemy.alive() and player.alive():
         player.print_status()
+        enemy.print_status()
         print(f"\nThere is a single {enemy.race}.\n")
         print("What do you want to do?")
         print(f"1. Fight {enemy.race}")
@@ -33,9 +34,13 @@ def battle(player, enemy):
         elif raw_input == "2":
             player.spy(enemy)
         elif raw_input == "3":
-            Store.use_firebomb(player, enemy)
+            # Store.use_firebomb(player, enemy)
+            Store.use_tonic(player)
             if enemy.health <= 0:
-                print(f"The {enemy.race} is truly dead this time.\n")
+                if Helper.is_zombie(enemy):
+                    print(f"The {enemy.race} is truly dead this time.\n")
+                else:
+                    print(f"The {enemy.race} is dead.\n")
                 print("________________________________________________________________________________________________\n")
         elif raw_input == "4":
             pass
@@ -62,5 +67,6 @@ def battle(player, enemy):
                     print("________________________________________________________________________________________________\n")
             if player.health <= 0:
                 print(f"{player.name} is dead.")
+                print(f"")
                 print("________________________________________________________________________________________________\n")
         combat_turn += 1
