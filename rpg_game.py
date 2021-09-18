@@ -36,9 +36,4 @@ fire_serpent = Fire_Serpent(name = "Fire Serpent")
 
 battle(human_fighter, zombie)
 
-# roll_to_hit(elven_rogue, goblin)
-
-
-#todo You can kill a zombie using fire. Have info in shop about how firebomb can be used to burn dead bodies. 
-
 #todo have shop with option to view info of item. 

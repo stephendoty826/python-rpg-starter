@@ -66,7 +66,7 @@ class Player(Character):
         self.inventory = inventory
 
     def spy(self, enemy):
-        print(f"{self.name} uses spy on the {enemy.race} - HP: {enemy.health}, AC: {enemy.armor}")
+        print(f"{self.name} uses spy on the {enemy.race} - HP: {enemy.health}, AC: {enemy.armor}\n")
 
 
 
@@ -153,10 +153,12 @@ class Goblin(Enemy):
 class Zombie(Enemy):
     def __init__(self, race = "zombie", name = "Zombie", health = randint(20, 25), attack_power = randint(1, 2), to_hit = randint(-2, -1), armor = randint(6, 8), bounty = 15):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty)
-        
+        self.health = health
+        self.max_hp = health
+
     def undead(self):
         if self.health <= 0:
-            self.health = 25
+            self.health = self.max_hp
 
     #todo: add special abilities (bite that poisons you and you take 1 damage for 3 turns) that can run "randomly" (1 in 8) per battle  
 
@@ -181,31 +183,29 @@ class Fire_Serpent(Enemy):
 class Store:
 
     def use_tonic(player):
-        name = "Super Tonic"
         player.health += randint(1, 4) * 2 + 4
 
     def use_firebomb(player, enemy):
-        
         roll = randint(1, 20)
         if (roll + player.to_hit) >= enemy.armor:
             if Helper.is_goblin(enemy) or Helper.is_shadow(enemy):
                 damage = randint(1, 6) + 6
                 enemy.health -= damage
-                print(f"HIT! {player.name} throws the firebomb and lands a direct hit. The {enemy.race} cries out in pain as it takes {damage} fire damage.")
+                print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, landing a direct hit. The {enemy.race} \ncries out in pain as it takes {damage} fire damage.\n")
             if Helper.is_zombie(enemy):
                 enemy.health = 0
-                print(f"HIT! {player.name} throws the firebomb and lands a direct hit. The zombie is quickly engulfed in flames and \ntopples to the ground truly dead this time.")
+                print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, landing a direct hit. The zombie is \nquickly engulfed in flames and topples to the ground.\n")
             if Helper.is_fire_serpent(enemy):
                 regen = randint(1, 6) + 6
                 enemy.health += regen
-                print(f"HIT! {player.name} throws the firebomb and lands a direct hit. The fire serpent laps up the fire and regains {regen} HP.")
+                print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, landing a direct hit. The fire \nserpent laps up the fire and regains {regen} HP.\n")
         else:
-            if Helper.is_goblin(enemy) or Helper.is_shadow:
-                print(f"MISS! {player.name} throws the firebomb and misses. The firebomb explodes into flames behind the {enemy.race} cause no damage.")
+            if Helper.is_goblin(enemy) or Helper.is_shadow(enemy):
+                print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing. The firebomb explodes into \nflames behind the {enemy.race} cause no damage.\n")
             if Helper.is_fire_serpent(enemy):
-                print(f"MISS! {player.name} throws the firebomb and misses. The fire serpent easily slithers right through the flames and prepares for an attack.")
+                print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing. The fire serpent easily \nslithers right through the flames and prepares for an attack.\n")
             if Helper.is_zombie(enemy):
-                print(f"MISS! {player.name} throws the firebomb and misses by a hair. The firebomb explodes into flames just behind the \nzombie noticeably damaging it's feet. If you can get a direct hit, you're sure you can kill this thing.")
+                print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing by a hair. The firebomb \nexplodes into flames just behind the zombie noticeably damaging it's feet. You're sure if you can land a hit with a \nfirebomb, you can kill this thing.\n")
 
 class Helper:
         
