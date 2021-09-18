@@ -8,10 +8,17 @@ Goblin = rpg_classes.Goblin
 Zombie = rpg_classes.Zombie
 Shadow = rpg_classes.Shadow
 Fire_Serpent = rpg_classes.Fire_Serpent
+Helper = rpg_classes.Helper
 
 from rpg_battle import *
 
 from rpg_functions import *
+
+store = [Helper.SuperTonic]
+
+store_description = {
+    "Super Tonic": "A tonic that restores 10 HP. Can be used in battle."
+    }
 
 human_fighter = Fighter("human", "Baden", health = 50)
 
@@ -27,7 +34,7 @@ shadow = Shadow(name = "Shadow")
 
 fire_serpent = Fire_Serpent(name = "Fire Serpent")
 
-battle(human_fighter, fire_serpent)
+battle(human_fighter, goblin)
 
 # roll_to_hit(elven_rogue, goblin)
 

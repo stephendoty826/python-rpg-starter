@@ -2,6 +2,8 @@ from random import *
 
 from rpg_classes import Helper
 
+from rpg_classes import Store
+
 #todo implement multiple heros/enemies?
 
 def battle(player, enemy):
@@ -16,8 +18,9 @@ def battle(player, enemy):
         print("What do you want to do?")
         print(f"1. Fight {enemy.race}")
         print("2. Spy")
-        print("3. Do nothing")
-        print("4. Flee")
+        print("3. Use an item")
+        print("4. Do nothing")
+        print("5. Flee")
         print("> ", end=' ')
         raw_input = input()
         print("\n________________________________________________________________________________________________\n")
@@ -35,8 +38,10 @@ def battle(player, enemy):
             player.spy(enemy)
             print()
         elif raw_input == "3":
-            pass
+            Store.use_firebomb(player, enemy)
         elif raw_input == "4":
+            pass
+        elif raw_input == "5":
             print("Goodbye.\n")
             break
         else:

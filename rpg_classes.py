@@ -60,9 +60,10 @@ class Character:
 
 
 class Player(Character):
-    def __init__(self, race, name, health, attack_power, to_hit, armor):
+    def __init__(self, race, name, health, attack_power, to_hit, armor, inventory = []):
         super().__init__(race, name, health, attack_power, to_hit, armor)
         #todo add special ability points
+        self.inventory = inventory
 
     def spy(self, enemy):
         print(f"{self.name} uses spy on the {enemy.race} - HP: {enemy.health}, AC: {enemy.armor}")
@@ -177,15 +178,29 @@ class Fire_Serpent(Enemy):
 
 
 
-class SuperTonic:
-    def __init__(self, name = "Super Tonic", in_inventory = 0):
-        self.name = name
-        self.in_inventory = in_inventory
+class Store:
 
-    def use_tonic(self, player):
+    def use_tonic(player):
+        name = "Super Tonic"
         player.health += randint(1, 4) * 2 + 4
 
-
+    def use_firebomb(player, enemy):
+        roll = randint(1, 20)
+        if (roll + player.to_hit) >= enemy.armor:
+            if Helper.is_zombie():
+                enemy.health == 0
+                print(f"HIT! {player.name} throws the firebomb and lands a direct hit. The zombie is quickly engulfed in flames and \ntopples to the ground truly dead this time.")
+            if Helper.is_fire_serpent():
+                regen = randint(1, 6) + 6
+                enemy.health += regen
+                print(f"HIT! {player.name} throws the firebomb and lands a direct hit. The fire serpent laps up the fire and regains {regen} HP.")
+            if Helper.is_goblin() or Helper.is_shadow():
+                damage = randint(1, 6) + 6
+                enemy.health -= damage
+                print(f"HIT! {player.name} throws the firebomb and lands a direct hit. The {enemy.race} is burned and takes {damage} fire damage.")
+        else:
+            if Helper.is_zombie():
+                print(f"MISS! {player.name} throws the firebomb and misses by a hair. The firebomb explodes into flames just behind the \nzombie noticeably damaging it's feet. If you can get a direct hit, you're sure you can kill this thing.")
 
 class Helper:
         
@@ -210,7 +225,12 @@ class Helper:
     def is_fire_serpent(enemy):
         return isinstance(enemy, Fire_Serpent)
 
-
+    def use_item():
+        if Player.inventory != []:
+            print("Which item would you like to use?")
+            for item in inventory:
+                print(f"{inventory.index(item) + 1}.{item.name}")
+            input()
 
 
 super_tonic = SuperTonic()
@@ -218,14 +238,5 @@ item2 = SuperTonic(name = "item2")
 item3 = SuperTonic(name = "item3")
 
 health = 5
-
-inventory = [super_tonic, item2, item3]
-
-def use_item():
-    if inventory != []:
-        print("Which item would you like to use?")
-        for item in inventory:
-            print(f"{inventory.index(item) + 1}.{item.name}")
-        input()
 
 # use_item()
