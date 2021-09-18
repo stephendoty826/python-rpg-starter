@@ -19,13 +19,15 @@ dwarven_medic = Medic("dwarf", "Thigrel", health = 50)
 
 elven_rogue = Rogue("elven", "Khiiral", health = 50)
 
-goblin = Goblin(name = "Goblin", health = 35)
+goblin = Goblin(name = "Goblin")
 
 zombie = Zombie(name = "Zombie")
 
 shadow = Shadow(name = "Shadow")
 
-battle(elven_rogue, shadow)
+fire_serpent = Fire_Serpent(name = "Fire Serpent")
+
+battle(human_fighter, fire_serpent)
 
 # roll_to_hit(elven_rogue, goblin)
 

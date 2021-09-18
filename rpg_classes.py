@@ -92,7 +92,7 @@ class Fighter(Player):
     def attack(self, enemy):
         roll = randint(1, 20)
         if (roll + self.to_hit) >= enemy.armor:
-            crit_chance = randint(1,5)
+            crit_chance = randint(1, 5)
             if crit_chance == 5:
                 enemy.health -= self.attack_power * 2
                 print(f"HIT! {self.name} rolled a {roll + self.to_hit} which hits the {enemy.race}. {self.name}'s sword strikes true dealing {self.attack_power * 2} damage.\n")
@@ -111,9 +111,9 @@ class Medic(Player):
         super().__init__(race, name, health, attack_power, to_hit, armor)
 
     def heal(self):
-        healing_chance = randint(1,5)
+        healing_chance = randint(1, 5)
         if healing_chance == 5:
-            healing = chance(1, 3)
+            healing = randint(1, 3)
             self.health += healing
             print(f"{self.name} uses healing to regain {healing} HP!\n")
 
@@ -144,13 +144,13 @@ class Rogue(Player):
 
 
 class Goblin(Enemy):
-    def __init__(self, race = "goblin", name = "Goblin", health = 7, attack_power = 2, to_hit = 0, armor = 9, bounty = 5):
+    def __init__(self, race = "goblin", name = "Goblin", health = randint(6, 8), attack_power = randint(2, 3), to_hit = randint(0, 1), armor = randint(8, 10), bounty = 5):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty)
 
     #todo: add special abilities (critical hit) that can run "randomly" (1 in 8) per battle
 
 class Zombie(Enemy):
-    def __init__(self, race = "zombie", name = "Zombie", health = 25, attack_power = 1, to_hit = -2, armor = 6, bounty = 15):
+    def __init__(self, race = "zombie", name = "Zombie", health = randint(20, 25), attack_power = randint(1, 2), to_hit = randint(-2, -1), armor = randint(6, 8), bounty = 15):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty)
         
     def undead(self):
@@ -160,13 +160,13 @@ class Zombie(Enemy):
     #todo: add special abilities (bite that poisons you and you take 1 damage for 3 turns) that can run "randomly" (1 in 8) per battle  
 
 class Shadow(Enemy):
-    def __init__(self, race = "shadow", name = "Shadow", health = 1, attack_power = 4, to_hit = 3, armor = 19, bounty = 8):
+    def __init__(self, race = "shadow", name = "Shadow", health = randint(1, 3), attack_power = randint(3, 5), to_hit = randint(4, 5), armor = randint(18, 19), bounty = 8):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty)
     
     #todo: add special abilities (something that skips your turn?) that can run "randomly" (1 in 8) per battle
 
 class Fire_Serpent(Enemy):
-    def __init__(self, race = "fire serpent", name = "Fire Serpent", health = 16, attack_power = 3, to_hit = 2, armor = 13, bounty = 30):
+    def __init__(self, race = "fire serpent", name = "Fire Serpent", health = randint(16, 18), attack_power = randint(3, 4), to_hit = randint(2, 3), armor = randint(12, 14), bounty = 30):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty)
 
     #todo: add special abilities (firebreath that does 3x damage and 1 damage per turn for 3 turns) that can run "randomly" (1 in 5) per battle
@@ -183,7 +183,7 @@ class SuperTonic:
         self.in_inventory = in_inventory
 
     def use_tonic(self, player):
-        player.health += rolld(4) * 2 + 4
+        player.health += randint(1, 4) * 2 + 4
 
 
 
@@ -209,9 +209,6 @@ class Helper:
 
     def is_fire_serpent(enemy):
         return isinstance(enemy, Fire_Serpent)
-
-    def random_health(num1, num2):
-        return randint(num1, num2)
 
 
 

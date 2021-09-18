@@ -37,7 +37,7 @@ def battle(player, enemy):
         elif raw_input == "3":
             pass
         elif raw_input == "4":
-            print("Goodbye.")
+            print("Goodbye.\n")
             break
         else:
             print(f"Invalid input {raw_input}")
