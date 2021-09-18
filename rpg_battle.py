@@ -30,15 +30,15 @@ def battle(player, enemy):
             if enemy.health <= 0:
                 print(f"The {enemy.race} is dead.")
                 if Helper.is_zombie(enemy): # enemy is a zombie and it can't be killed. 
-                    print(enemy.health)
                     enemy.undead()
-                    print("\nMoments later, the zombie slowly rises to it's feet again. This thing just won't die.")
-                    print(enemy.health)
+                    print("\nMoments later, the zombie slowly rises to it's feet again. This thing just won't die.\n")
         elif raw_input == "2":
             player.spy(enemy)
             print()
         elif raw_input == "3":
             Store.use_firebomb(player, enemy)
+            if enemy.health <= 0:
+                print(f"The {enemy.race} is dead.")
         elif raw_input == "4":
             pass
         elif raw_input == "5":

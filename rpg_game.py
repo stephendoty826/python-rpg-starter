@@ -14,11 +14,11 @@ from rpg_battle import *
 
 from rpg_functions import *
 
-store = [Helper.SuperTonic]
+# store = [Helper.SuperTonic]
 
-store_description = {
-    "Super Tonic": "A tonic that restores 10 HP. Can be used in battle."
-    }
+# store_description = {
+#     "Super Tonic": "A tonic that restores 10 HP. Can be used in battle."
+#     }
 
 human_fighter = Fighter("human", "Baden", health = 50)
 
@@ -26,7 +26,7 @@ dwarven_medic = Medic("dwarf", "Thigrel", health = 50)
 
 elven_rogue = Rogue("elven", "Khiiral", health = 50)
 
-goblin = Goblin(name = "Goblin")
+goblin = Goblin(name = "Goblin", health = 25)
 
 zombie = Zombie(name = "Zombie")
 
@@ -34,7 +34,7 @@ shadow = Shadow(name = "Shadow")
 
 fire_serpent = Fire_Serpent(name = "Fire Serpent")
 
-battle(human_fighter, goblin)
+battle(human_fighter, zombie)
 
 # roll_to_hit(elven_rogue, goblin)
 
