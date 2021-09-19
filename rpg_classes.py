@@ -61,11 +61,14 @@ class Character:
 
 
 class Player(Character):
-    def __init__(self, race, name, health, attack_power, to_hit, armor, coin_purse = 0, inventory = []):
+    def __init__(self, race, name, health, attack_power, to_hit, armor, has_bug, coin_purse = 0, inventory = [], current_bounty = []):
         super().__init__(race, name, health, attack_power, to_hit, armor)
         #todo add special ability points
+        self.has_bug = has_bug
         self.coin_purse = coin_purse
         self.inventory = inventory
+        self.current_bounty = current_bounty
+
 
     def spy(self, enemy):
         print(f"{self.name} uses spy on the {enemy.race} - HP: {enemy.health}, AC: {enemy.armor}\n")
@@ -73,9 +76,10 @@ class Player(Character):
 
 
 class Enemy(Character):
-    def __init__(self, race, name, health, attack_power, to_hit, armor, bounty):
+    def __init__(self, race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty):
         super().__init__(race, name, health, attack_power, to_hit, armor)
         self.bounty = bounty
+        self.is_specialty_bounty = is_specialty_bounty
 
     #todo need to fix. roll_to_hit() was replaced with attack in Character class. Also redo wording to match other attacks. 
     def rogue_evade_attack(self, player):
@@ -89,8 +93,8 @@ class Enemy(Character):
 
 
 class Fighter(Player):
-    def __init__(self, race, name, health = 12, attack_power = 3, to_hit = 1, armor = 10):
-        super().__init__(race, name, health, attack_power, to_hit, armor)
+    def __init__(self, race, name, has_bug, health = 12, attack_power = 3, to_hit = 1, armor = 9, ):
+        super().__init__(race, name, health, attack_power, to_hit, armor, has_bug)
 
     def attack(self, enemy):
         roll = randint(1, 20)
@@ -110,8 +114,8 @@ class Fighter(Player):
 
 
 class Medic(Player):
-    def __init__(self, race, name, health = 10, attack_power = 2, to_hit = 0, armor = 8):
-        super().__init__(race, name, health, attack_power, to_hit, armor)
+    def __init__(self, race, name, has_bug, health = 11, attack_power = 2, to_hit = 0, armor = 7):
+        super().__init__(race, name, health, attack_power, to_hit, armor, has_bug)
 
     def heal(self):
         healing_chance = randint(1, 5)
@@ -127,8 +131,8 @@ class Medic(Player):
 
 
 class Rogue(Player):
-    def __init__(self, race, name, health = 8, attack_power = 2, to_hit = 3, armor = 9):
-        super().__init__(race, name, health, attack_power, to_hit, armor)
+    def __init__(self, race, name, has_bug, health = 10, attack_power = 2, to_hit = 3, armor = 8):
+        super().__init__(race, name, health, attack_power, to_hit, armor, has_bug)
 
     def chance_evade(self):
         evade_chance = randint(1,5)
@@ -147,14 +151,14 @@ class Rogue(Player):
 
 
 class Goblin(Enemy):
-    def __init__(self, race = "goblin", name = "Goblin", health = randint(6, 8), attack_power = randint(2, 3), to_hit = randint(0, 1), armor = randint(8, 10), bounty = 5):
-        super().__init__(race, name, health, attack_power, to_hit, armor, bounty)
+    def __init__(self, race = "goblin", name = "Goblin", health = randint(7, 8), attack_power = randint(2, 3), to_hit = randint(0, 1), armor = randint(7, 8), bounty = 3, is_specialty_bounty = False):
+        super().__init__(race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty)
 
     #todo: add special abilities (critical hit) that can run "randomly" (1 in 8) per battle
 
 class Zombie(Enemy):
-    def __init__(self, race = "zombie", name = "Zombie", health = randint(20, 25), attack_power = randint(1, 2), to_hit = randint(-2, -1), armor = randint(6, 8), bounty = 15):
-        super().__init__(race, name, health, attack_power, to_hit, armor, bounty)
+    def __init__(self, race = "zombie", name = "Zombie", health = randint(12, 16), attack_power = randint(1, 2), to_hit = randint(0, 1), armor = randint(5, 7), bounty = 15, is_specialty_bounty = False):
+        super().__init__(race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty)
 
     def undead(self):
         if self.health <= 0:
@@ -163,20 +167,21 @@ class Zombie(Enemy):
     #todo: add special abilities (bite that poisons you and you take 1 damage for 3 turns) that can run "randomly" (1 in 8) per battle  
 
 class Shadow(Enemy):
-    def __init__(self, race = "shadow", name = "Shadow", health = randint(1, 3), attack_power = randint(3, 5), to_hit = randint(4, 5), armor = randint(18, 19), bounty = 8):
-        super().__init__(race, name, health, attack_power, to_hit, armor, bounty)
+    def __init__(self, race = "shadow", name = "Shadow", health = randint(1, 2), attack_power = randint(3, 4), to_hit = randint(5, 6), armor = randint(17, 18), bounty = 6, is_specialty_bounty = False):
+        super().__init__(race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty)
     
     #todo: add special abilities (something that skips your turn?) that can run "randomly" (1 in 8) per battle
 
 class Fire_Serpent(Enemy):
-    def __init__(self, race = "fire serpent", name = "Fire Serpent", health = randint(16, 18), attack_power = randint(3, 4), to_hit = randint(2, 3), armor = randint(12, 14), bounty = 30):
-        super().__init__(race, name, health, attack_power, to_hit, armor, bounty)
+    def __init__(self, race = "fire serpent", name = "Fire Serpent", health = randint(18, 20), attack_power = randint(3, 4), to_hit = randint(2, 3), armor = randint(11, 13), bounty = 30, is_specialty_bounty = False):
+        super().__init__(race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty)
 
     #todo: add special abilities (firebreath that does 3x damage and 1 damage per turn for 3 turns) that can run "randomly" (1 in 5) per battle
 
-
+class Troll(Enemy):
+    def __init__(self, race = "troll", name = "Troll", health = randint(25, 30), attack_power = randint(6, 7), to_hit = randint(-3, -1), armor = randint(4, 5), bounty = 10, is_specialty_bounty = False):
+        super().__init__(race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty)
 #todo add more enemies (use dnd monsters for ideas)
-
 
 
 
@@ -195,7 +200,7 @@ class Store:
         roll = randint(1, 20)
         if (roll + player.to_hit) >= enemy.armor:
             if Helper.is_goblin(enemy) or Helper.is_shadow(enemy):
-                damage = randint(1, 6) + 6
+                damage = randint(1, 4) + 4
                 enemy.health -= damage
                 print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, landing a direct hit. The {enemy.race} \ncries out in pain as it takes {damage} fire damage.\n")
             if Helper.is_zombie(enemy):
@@ -212,6 +217,8 @@ class Store:
                 print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing. The fire serpent easily \nslithers right through the flames and prepares for an attack.\n")
             if Helper.is_zombie(enemy):
                 print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing by a hair. The firebomb \nexplodes into flames just behind the zombie noticeably damaging it's feet. You're sure if you can land a hit with a \nfirebomb, you can kill this thing.\n")
+
+    #todo add weapon that increases attack power by 2. Make it fairly expensive.
 
 class Helper:
         
@@ -242,5 +249,24 @@ class Helper:
             for item in inventory:
                 print(f"{inventory.index(item) + 1}.{item.name}")
             input()
+
+
+# creating heros
+fighter = Fighter("human", "Baden", health = 50, has_bug = True)
+medic = Medic("human", "Thigrel", health = 50, has_bug = True)
+rogue = Rogue("human", "Khiiral", health = 50, has_bug = True)
+
+# creatings standard enemies
+goblin = Goblin()
+shadow = Shadow()
+troll = Troll()
+
+# creating bounties
+mudmug = Goblin(name = "Mudmug", health = randint(10, 11), attack_power = randint(3, 4), bounty = 6, is_specialty_bounty = True)
+stigg = Goblin(name = "Stigg", health = randint(13, 14), to_hit =  randint(2, 3), bounty = 7, is_specialty_bounty = True)
+undead_ned = Zombie(name = "Undead Ned", is_specialty_bounty = True)
+big_nellie = Troll(name = "Big Nellie", health = randint(30, 35), attack_power = randint(8, 9), to_hit = randint(-1, 1), bounty = 20, is_specialty_bounty = True)
+lighthouse_shadow = Shadow(name = "the lighthouse shadow", health = randint(3, 4), attack_power = randint(4, 5), armor = randint(18, 19), bounty = 15, is_specialty_bounty = True)
+fire_serpent = Fire_Serpent(is_specialty_bounty = True)
 
 
