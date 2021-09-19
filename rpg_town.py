@@ -22,26 +22,38 @@ def town(player):
             talk_to_locals(player)
         elif raw_input == "2":
             if player.current_bounty != []:
-                print(f"You current bounty is {player.bounty.name} ({player.bounty.race}) - {player.bounty.bounty} gold.\nWould you like to take a different bounty?\n")
+                print(f"You current bounty is {player.current_bounty[0].name} ({player.current_bounty[0].race}) - {player.current_bounty[0].bounty} gold.\nWould you like to choose a different bounty?\n")
                 print("1. Yes")
                 print("2. No")
                 raw_input2 = input()
                 print("________________________________________________________________________________________________\n")
                 if raw_input2 == "1":
-                    if player.current_bounty.is_specialty_bounty:
-                        specialty_bounties.append(player.current_bounty)
+                    if player.current_bounty[0].is_specialty_bounty:
+                        specialty_bounties.append(player.current_bounty[0])
                         player.current_bounty = []
+                        bounty_board(player)
+                    else:
+                        player.current_bounty = []
+                        bounty_board(player)
                 elif raw_input2 == "2":
                     pass
                 else:
                     print(f"Invalid input {raw_input}\n")
-            bounty_board(player)
+            else:
+                bounty_board(player)
         elif raw_input == "3":
-            print(f"You current bounty is {player.current_bounty} - .\n")
+            if player.current_bounty == []:
+                print("You currently don't have a bounty. Be sure to check the bounty board in town to grab one.\n ")
+            else:
+                print(f"You current bounty is {player.current_bounty[0].name} ({player.current_bounty[0].race}) - {player.current_bounty[0].bounty} gold.\n")
         elif raw_input == "4":
             pass
         elif raw_input == "5":
-            pass
+            if player.coin_purse < 5:
+                print("You don't have enough gold to stay at the inn. Turn in some bounties to earn some money.\n")
+            else:
+                player.health = player.max_hp
+                player.coin_purse -= 5
         elif raw_input == "6":
             break
         else:
@@ -93,7 +105,7 @@ def bounty_board(player):
             print("3. Troll - 10 gold")
             raw_input2 = input()
             print("________________________________________________________________________________________________\n")
-            print(f"You have chosen {standard_bounties[int(raw_input2) - 1].name}. Happy hunting!\n")
+            print(f"You have chosen {standard_bounties[int(raw_input2) - 1].name} as your bounty. Happy hunting!\n")
             player.current_bounty.append(standard_bounties[int(raw_input2) - 1])
             break
         elif raw_input == "2":
@@ -104,7 +116,7 @@ def bounty_board(player):
                 count += 1
             raw_input3 = input()
             print("________________________________________________________________________________________________\n")
-            print(f"You have chosen {specialty_bounties[int(raw_input3) - 1].name}. Happy hunting!\n")
+            print(f"You have chosen {specialty_bounties[int(raw_input3) - 1].name} as your bounty. Happy hunting!\n")
             player.current_bounty.append(specialty_bounties[int(raw_input3) - 1])
             del specialty_bounties[int(raw_input3) - 1]
             break
@@ -125,7 +137,7 @@ def old_man_brigham():
         print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
-        response_list = ["Ned who lives in the farmhouse always said he wanted to be cremated. Well, now that he's dead maybe he'll get his wish.", "GO ON! GIT OUTTA HERE! Sorry...these darn kids keep running through my yard.", "Have you spoken to our village elder? Liana's such a nice lady. I remember when she was just a little girl following after her mother...", "People say I've got a few screws loose but I'll tell you what, water still puts the fire out. That's all...that's all.", "Back in my day, we used to work for a living. Not like Lynette and her two boys, always running around whilly nilly and such."]
+        response_list = ["Ned who lives in the farmhouse always said he wanted to be cremated. Well, now that he's dead maybe he'll get his wish.", "GO ON! GIT OUTTA HERE! Sorry...these darn kids keep running through my yard.", "Have you spoken to our village elder? Liana's such a nice lady. I remember when she was just a little girl following after her mother...", "People say I've got a few screws loose but I'll tell you what, if you got a fire you want put out, throw some water on it. \nThat's all I'm sayin'...that's all.", "Back in my day, we used to work for a living. Not like Lynette and her two boys, always running around whilly nilly and such."]
         if raw_input == "1":
             if index == len(response_list):
                 index = 0
@@ -150,7 +162,7 @@ def elder_liana():
         print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
-        response_list = ["If it's not to much to ask, our town has need of your help. We normally get supplied from the town north of \nhere but a fire serpent has recently made that area her hunting ground and now we can't get proper supplies.", "Old man Ned died recently and well...he's not as dead as he once was. Now his corpse roams the old farm house and attacks anyone who goes near.", "Ever heard of Big Nellie. That troll has caused us so much trouble in recent months. So much so that her head's worth double the normal bounty.", "Feel free to look at our bounty board if your interested in some work. It has standard bounties you can do multiple times and specialty bounties \nwhich pay better but the mark is harder."]
+        response_list = ["If it's not to much to ask, our town has need of your help. We normally get supplied from the town north of \nhere, but a fire serpent has recently made that area her hunting ground and now we can't get proper supplies.", "Old man Ned died recently and well...he's not as dead as he once was. Now his corpse roams the old farm house and attacks anyone who goes near.", "Ever heard of Big Nellie. That troll has caused us a lot of trouble in recent months. So much so that her head's worth double the normal bounty.", "Feel free to look at our bounty board if your interested in some work. It has standard bounties you can do multiple times \nand specialty bounties you can only do once. The specialty bounties pay better but the target is harder."]
         if raw_input == "1":
             if index == len(response_list):
                 index = 0
@@ -169,7 +181,7 @@ def elder_liana():
 def small_boy(player):
     print("Sell me something. Please sell me something with \"C\".\n")
     while True:
-        print("1. Show the small boy what you're carrying.")
+        print("1. Show the small boy what's in your pack.")
         print("2. Back")
         print("> ", end = ' ')
         raw_input = input()

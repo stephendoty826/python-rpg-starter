@@ -18,10 +18,9 @@ Store = rpg_classes.Store
 def battle(player, enemy):
     combat_turn = 1
 
-    print(f"\nYou come across a {enemy.race}.\n")
+    print(f"\nYou spot your bounty in the distance, a lone {enemy.race}.\n")
     while enemy.alive() and player.alive():
         player.print_status()
-        enemy.print_status()
         print("\nWhat do you want to do?")
         print(f"1. Fight {enemy.race}")
         print("2. Spy")

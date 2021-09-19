@@ -93,14 +93,14 @@ class Enemy(Character):
 
 
 class Fighter(Player):
-    def __init__(self, race, name, has_bug, health = 12, attack_power = 3, to_hit = 1, armor = 9, ):
+    def __init__(self, race, has_bug = False, name = "Fighter", health = 12, attack_power = 2, to_hit = 1, armor = 9, ):
         super().__init__(race, name, health, attack_power, to_hit, armor, has_bug)
 
     def attack(self, enemy):
         roll = randint(1, 20)
         if (roll + self.to_hit) >= enemy.armor:
-            crit_chance = randint(1, 5)
-            if crit_chance == 5:
+            crit_chance = randint(1, 4)
+            if crit_chance == 4:
                 enemy.health -= self.attack_power * 2
                 print(f"HIT! {self.name} rolled a {roll + self.to_hit} which hits the {enemy.race}. {self.name}'s sword strikes true dealing {self.attack_power * 2} damage.\n")
             else:
@@ -114,13 +114,13 @@ class Fighter(Player):
 
 
 class Medic(Player):
-    def __init__(self, race, name, has_bug, health = 11, attack_power = 2, to_hit = 0, armor = 7):
+    def __init__(self, race, has_bug = False, name = "Medic", health = 10, attack_power = 2, to_hit = 0, armor = 8):
         super().__init__(race, name, health, attack_power, to_hit, armor, has_bug)
 
     def heal(self):
-        healing_chance = randint(1, 5)
-        if healing_chance == 5:
-            healing = randint(1, 3)
+        healing_chance = randint(1, 4)
+        if healing_chance == 4:
+            healing = randint(2, 3)
             self.health += healing
             print(f"{self.name} uses healing to regain {healing} HP!\n")
 
@@ -131,12 +131,12 @@ class Medic(Player):
 
 
 class Rogue(Player):
-    def __init__(self, race, name, has_bug, health = 10, attack_power = 2, to_hit = 3, armor = 8):
+    def __init__(self, race, has_bug = False, name = "Rogue", health = 11, attack_power = 2, to_hit = 3, armor = 7):
         super().__init__(race, name, health, attack_power, to_hit, armor, has_bug)
 
     def chance_evade(self):
-        evade_chance = randint(1,5)
-        if evade_chance == 5:
+        evade_chance = randint(1, 4)
+        if evade_chance == 4:
             return True
         else: 
             return False
@@ -252,9 +252,9 @@ class Helper:
 
 
 # creating heros
-fighter = Fighter("human", "Baden", health = 50, has_bug = True)
-medic = Medic("human", "Thigrel", health = 50, has_bug = True)
-rogue = Rogue("human", "Khiiral", health = 50, has_bug = True)
+# fighter = Fighter("human", "Baden", health = 50, has_bug = True)
+# medic = Medic("human", "Thigrel", health = 50, has_bug = True)
+# rogue = Rogue("human", "Khiiral", health = 50, has_bug = True)
 
 # creatings standard enemies
 goblin = Goblin()
@@ -266,7 +266,7 @@ mudmug = Goblin(name = "Mudmug", health = randint(10, 11), attack_power = randin
 stigg = Goblin(name = "Stigg", health = randint(13, 14), to_hit =  randint(2, 3), bounty = 7, is_specialty_bounty = True)
 undead_ned = Zombie(name = "Undead Ned", is_specialty_bounty = True)
 big_nellie = Troll(name = "Big Nellie", health = randint(30, 35), attack_power = randint(8, 9), to_hit = randint(-1, 1), bounty = 20, is_specialty_bounty = True)
-lighthouse_shadow = Shadow(name = "the lighthouse shadow", health = randint(3, 4), attack_power = randint(4, 5), armor = randint(18, 19), bounty = 15, is_specialty_bounty = True)
+lighthouse_shadow = Shadow(name = "Shadow of the Lighthouse", health = randint(3, 4), attack_power = randint(4, 5), armor = randint(18, 19), bounty = 15, is_specialty_bounty = True)
 fire_serpent = Fire_Serpent(is_specialty_bounty = True)
 
 
