@@ -1,5 +1,7 @@
 from random import *
 
+import rpg_functions
+
 import rpg_classes
 
 Fighter = rpg_classes.Fighter
@@ -11,7 +13,10 @@ Zombie = rpg_classes.Zombie
 Shadow = rpg_classes.Shadow
 Fire_Serpent = rpg_classes.Fire_Serpent
 Helper = rpg_classes.Helper
-Store = rpg_classes.Store
+Firebomb = rpg_classes.Firebomb
+Super_Tonic = rpg_classes.Super_Tonic
+
+
 
 #todo implement multiple heros/enemies? 
 
@@ -35,25 +40,32 @@ def battle(player, enemy):
             player.attack(enemy)
             if enemy.health <= 0:
                 print(f"The {enemy.race} is dead.\n")
-                player.coin_purse += enemy.bounty
-                print(f"{player.name} received {enemy.bounty} coins for a total of {player.coin_purse}.")
-                print("________________________________________________________________________________________________\n")
                 if Helper.is_zombie(enemy): # enemy is a zombie and it can't be killed. 
                     enemy.undead()
                     print("Moments later, the zombie slowly rises to it's feet again. This thing just won't die.\n")
                     print("________________________________________________________________________________________________\n")
+                else:
+                    player.current_bounty = []
+                    player.coin_purse += enemy.bounty
+                    print(f"{player.name} received {enemy.bounty} coins for a total of {player.coin_purse}.")
+                    print("________________________________________________________________________________________________\n")
         elif raw_input == "2":
             player.spy(enemy)
         elif raw_input == "3":
-            # Store.use_firebomb(player, enemy)
-            Store.use_tonic(player)
+            # rpg_functions.check_inventory(player)
+            # if player.inventory != []:
+            #     pass
+            # Firebomb.use(player, enemy)
+            Super_Tonic.use(player, enemy)
             if enemy.health <= 0:
                 if Helper.is_zombie(enemy):
                     print(f"The {enemy.race} is truly dead this time.\n")
+                    player.current_bounty = []
                     player.coin_purse += enemy.bounty
                     print(f"{player.name} received {enemy.bounty} coins for a total of {player.coin_purse}.")
                 else:
                     print(f"The {enemy.race} is dead.\n")
+                    player.current_bounty = []
                     player.coin_purse += enemy.bounty
                     print(f"{player.name} received {enemy.bounty} coins for a total of {player.coin_purse}.")
                 print("________________________________________________________________________________________________\n")

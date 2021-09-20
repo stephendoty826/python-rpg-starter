@@ -5,16 +5,16 @@ from rpg_classes import *
 # town_list = ["Forstford", "MillerVille", "Dawsbury"]
 
 def town(player):
-    print("You arrive at the town of Dawsbury. You should be able to find some work here. Better check the bounty board.\n")
+    print("You arrive at the town of Dawsbury.\n")
     while True:
-        player.health
         print("What would you like to do?")
         print("1. Talk to the locals")
         print("2. View the bounty board")
         print("3. View current bounty")
-        print("4. Shop for items")
-        print("5. Rest at the inn (5 gold)")
-        print("6. Leave town")
+        print("4. View inventory")
+        print("5. Shop for items")
+        print("6. Rest at the inn (5 gold)")
+        print("7. Leave town")
         print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
@@ -25,6 +25,7 @@ def town(player):
                 print(f"You current bounty is {player.current_bounty[0].name} ({player.current_bounty[0].race}) - {player.current_bounty[0].bounty} gold.\nWould you like to choose a different bounty?\n")
                 print("1. Yes")
                 print("2. No")
+                print("> ", end = ' ')
                 raw_input2 = input()
                 print("________________________________________________________________________________________________\n")
                 if raw_input2 == "1":
@@ -42,19 +43,23 @@ def town(player):
             else:
                 bounty_board(player)
         elif raw_input == "3":
-            if player.current_bounty == []:
-                print("You currently don't have a bounty. Be sure to check the bounty board in town to grab one.\n ")
-            else:
-                print(f"You current bounty is {player.current_bounty[0].name} ({player.current_bounty[0].race}) - {player.current_bounty[0].bounty} gold.\n")
+            check_bounty(player)
+            # if player.current_bounty == []:
+            #     print("You currently don't have a bounty. Be sure to check the bounty board in town to grab one.\n ")
+            # else:
+            #     print(f"You current bounty is {player.current_bounty[0].name} ({player.current_bounty[0].race}) - {player.current_bounty[0].bounty} gold.\n")
         elif raw_input == "4":
-            pass
+            check_inventory(player)
         elif raw_input == "5":
+            shop(player)
+        elif raw_input == "6":
             if player.coin_purse < 5:
                 print("You don't have enough gold to stay at the inn. Turn in some bounties to earn some money.\n")
             else:
                 player.health = player.max_hp
                 player.coin_purse -= 5
-        elif raw_input == "6":
+                print(f"Your health is fully restored to {player.health} HP. You now have {player.coin_purse} gold.\n")
+        elif raw_input == "7":
             break
         else:
             print(f"Invalid input {raw_input}\n")
@@ -89,7 +94,6 @@ standard_bounties = [goblin, shadow, troll]
 specialty_bounties = [mudmug, stigg, undead_ned, big_nellie, lighthouse_shadow, fire_serpent]
 
 def bounty_board(player):
-    player.current_bounty
     while True:
         print("Which bounties would you like to view?\n")
         print("1. Standard Bounties")
@@ -103,28 +107,142 @@ def bounty_board(player):
             print("1. Goblin - 3 gold")
             print("2. Shadow - 6 gold")
             print("3. Troll - 10 gold")
+            print("> ", end = ' ')
             raw_input2 = input()
             print("________________________________________________________________________________________________\n")
-            print(f"You have chosen {standard_bounties[int(raw_input2) - 1].name} as your bounty. Happy hunting!\n")
-            player.current_bounty.append(standard_bounties[int(raw_input2) - 1])
-            break
+            try:
+                if isinstance(int(raw_input2), int):
+                    print(f"You have selected {standard_bounties[int(raw_input2) - 1].name}. Take this bounty?\n")
+                    print("1. Yes")
+                    print("2. No")
+                    print("> ", end = ' ')
+                    raw_input5 = input()
+                    print("________________________________________________________________________________________________\n")
+                    if raw_input5 == "1":
+                        print(f"You have chosen {standard_bounties[int(raw_input2) - 1].name} as your bounty. Happy hunting!\n")
+                        player.current_bounty.append(standard_bounties[int(raw_input2) - 1])
+                        break
+                    elif raw_input5 == "2":
+                        pass
+                    else:
+                        print(f"Invalid input {raw_input5}\n")
+            except:
+                print(f"Invalid input {raw_input2}\n") 
         elif raw_input == "2":
             print("The following specialty bounties are avaiable. Please select which one you would like to take.\n")
             count = 1
             for bounty in specialty_bounties:
                 print(f"{count}. {bounty.name} ({bounty.race}) - {bounty.bounty} gold")
                 count += 1
+            print("> ", end = ' ')
             raw_input3 = input()
             print("________________________________________________________________________________________________\n")
-            print(f"You have chosen {specialty_bounties[int(raw_input3) - 1].name} as your bounty. Happy hunting!\n")
-            player.current_bounty.append(specialty_bounties[int(raw_input3) - 1])
-            del specialty_bounties[int(raw_input3) - 1]
-            break
+            try:
+                if isinstance(int(raw_input3), int):
+                    print("________________________________________________________________________________________________\n")
+                    print(f"You have selected {specialty_bounties[int(raw_input3) - 1].name}. Take this bounty?\n")
+                    print("1. Yes")
+                    print("2. No")
+                    print("> ", end = ' ')
+                    raw_input4 = input()
+                    print("________________________________________________________________________________________________\n")
+                    if raw_input4 == "1":
+                        print(f"You have chosen {specialty_bounties[int(raw_input3) - 1].name} as your bounty. Happy hunting!\n")
+                        player.current_bounty.append(specialty_bounties[int(raw_input3) - 1])
+                        del specialty_bounties[int(raw_input3) - 1]
+                        break
+                    elif raw_input4 == "2":
+                        pass
+                    else:
+                        print(f"Invalid input {raw_input4}\n")
+            except:
+                print(f"Invalid input {raw_input3}\n")
         elif raw_input == "3":
             break
         else:
             print(f"Invalid input {raw_input}\n")
     
+standard_items = [super_tonic, firebomb, evade, water_balloon]
+
+specialty_items = [ac_upgrade, hp_upgrade, to_hit_upgrade, greataxe, bug_in_bottle]
+
+def shop(player):
+    while True:
+        print("Which items would you like to view?\n")
+        print("1. Standard Items")
+        print("2. Specialty Items")
+        print("3. Back")
+        print("> ", end = ' ')
+        raw_input = input()
+        print("________________________________________________________________________________________________\n")
+        if raw_input == "1":
+            print("The following standard items are avaiable. Please select which one you would like to purchase.\n")
+            count = 1
+            for item in standard_items:
+                print(f"{count}. {item.name}: ({item.description}) - {item.price} gold")
+                count += 1
+            print("> ", end = ' ')
+            raw_input2 = input()
+            print("________________________________________________________________________________________________\n") 
+            try:
+                if isinstance(int(raw_input2), int):
+                    if player.coin_purse - standard_items[int(raw_input2) - 1].price < 0:
+                        print("You don't have enough gold for that.")
+                        pass
+                    else:
+                        print(f"You have selected {standard_items[int(raw_input2) - 1].name}. Purchase this item?\n")
+                        print("1. Yes")
+                        print("2. No")
+                        print("> ", end = ' ')
+                        raw_input5 = input()
+                        print("________________________________________________________________________________________________\n")
+                        if raw_input5 == "1":
+                            print(f"You have purchased {standard_items[int(raw_input2) - 1].name}.\n")
+                            player.inventory.append(standard_items[int(raw_input2) - 1])
+                            player.coin_purse -= standard_items[int(raw_input2) - 1].price
+                            break
+                        elif raw_input5 == "2":
+                            pass
+                        else:
+                            print(f"Invalid input {raw_input5}\n")
+            except:
+                print(f"Invalid input {raw_input2}\n") 
+        elif raw_input == "2":
+            print("The following specialty bounties are avaiable. Please select which one you would like to purchase.\n")
+            count = 1
+            for item in specialty_items:
+                print(f"{count}. {item.name}: ({item.description}) - {item.price} gold")
+                count += 1
+            print("> ", end = ' ')
+            raw_input3 = input()
+            print("________________________________________________________________________________________________\n")
+            try:
+                if isinstance(int(raw_input3), int):
+                    if player.coin_purse - specialty_items[int(raw_input2) - 1].price < 0:
+                        print("You don't have enough gold for that.")
+                        pass
+                    else:
+                        print(f"You have selected {specialty_items[int(raw_input3) - 1].name}. Take this bounty?\n")
+                        print("1. Yes")
+                        print("2. No")
+                        print("> ", end = ' ')
+                        raw_input4 = input()
+                        print("________________________________________________________________________________________________\n")
+                        if raw_input4 == "1":
+                            print(f"You have purchased {specialty_items[int(raw_input2) - 1].name}.\n")
+                            player.inventory.append(specialty_items[int(raw_input2) - 1])
+                            player.coin_purse -= specialty_items[int(raw_input2) - 1].price
+                            break
+                        elif raw_input4 == "2":
+                            pass
+                        else:
+                            print(f"Invalid input {raw_input4}\n")
+            except:
+                print(f"Invalid input {raw_input3}\n")
+        elif raw_input == "3":
+            break
+        else:
+            print(f"Invalid input {raw_input}\n")
 
 
 

@@ -13,16 +13,16 @@
 
 # print(x + round(7/2))
 
-def test():
-    print("Test 1")
-    while True:
-        print("how are you?")
-        raw_input = input()
-        if raw_input == "1":
-            print("hello")
-        else:
-            break
-    player = raw_input + 3
-    return player
+x = [1, 2, 3, 4, 5, 6, 7]
+
+print("type in a number")
+
+raw_input = input()
+
+if isinstance(int(raw_input), int):
+    print(x[int(raw_input)])
+else:
+    print("invalid input")
+
 
 

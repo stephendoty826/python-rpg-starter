@@ -93,8 +93,8 @@ class Enemy(Character):
 
 
 class Fighter(Player):
-    def __init__(self, race, has_bug = False, name = "Fighter", health = 12, attack_power = 2, to_hit = 1, armor = 9, ):
-        super().__init__(race, name, health, attack_power, to_hit, armor, has_bug)
+    def __init__(self, race, has_bug = False, name = "Fighter", health = 12, attack_power = 3, to_hit = 1, armor = 9):
+        super().__init__(race, name, health, attack_power, to_hit, armor, has_bug, coin_purse = 0)
 
     def attack(self, enemy):
         roll = randint(1, 20)
@@ -114,8 +114,8 @@ class Fighter(Player):
 
 
 class Medic(Player):
-    def __init__(self, race, has_bug = False, name = "Medic", health = 10, attack_power = 2, to_hit = 0, armor = 8):
-        super().__init__(race, name, health, attack_power, to_hit, armor, has_bug)
+    def __init__(self, race, has_bug = False, name = "Medic", health = 10, attack_power = 3, to_hit = 0, armor = 8):
+        super().__init__(race, name, health, attack_power, to_hit, armor, has_bug, coin_purse = 0)
 
     def heal(self):
         healing_chance = randint(1, 4)
@@ -131,8 +131,8 @@ class Medic(Player):
 
 
 class Rogue(Player):
-    def __init__(self, race, has_bug = False, name = "Rogue", health = 11, attack_power = 2, to_hit = 3, armor = 7):
-        super().__init__(race, name, health, attack_power, to_hit, armor, has_bug)
+    def __init__(self, race, has_bug = False, name = "Rogue", health = 11, attack_power = 3, to_hit = 3, armor = 7):
+        super().__init__(race, name, health, attack_power, to_hit, armor, has_bug, coin_purse = 0)
 
     def chance_evade(self):
         evade_chance = randint(1, 4)
@@ -173,7 +173,7 @@ class Shadow(Enemy):
     #todo: add special abilities (something that skips your turn?) that can run "randomly" (1 in 8) per battle
 
 class Fire_Serpent(Enemy):
-    def __init__(self, race = "fire serpent", name = "Fire Serpent", health = randint(18, 20), attack_power = randint(3, 4), to_hit = randint(2, 3), armor = randint(11, 13), bounty = 30, is_specialty_bounty = False):
+    def __init__(self, race = "fire serpent", name = "Fire Serpent", health = randint(18, 20), attack_power = randint(4, 5), to_hit = randint(2, 3), armor = randint(11, 13), bounty = 30, is_specialty_bounty = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty)
 
     #todo: add special abilities (firebreath that does 3x damage and 1 damage per turn for 3 turns) that can run "randomly" (1 in 5) per battle
@@ -184,10 +184,14 @@ class Troll(Enemy):
 #todo add more enemies (use dnd monsters for ideas)
 
 
+# Store reusable items
+class Super_Tonic:
+    def __init__(self, name = "Super Tonic", description = "restores 10 HP", price = 12):
+        self.name = name
+        self.description = description
+        self.price = price
 
-class Store:
-
-    def use_tonic(player):
+    def use(player, enemy):
         regen = randint(1, 4) * 2 + 4
         if regen + player.health > player.max_hp:
             player.health = player.max_hp
@@ -196,7 +200,15 @@ class Store:
             player.health += regen
             print(f"{player.name} uses Super Tonic and regains {regen} HP.")
 
-    def use_firebomb(player, enemy):
+
+
+class Firebomb:
+    def __init__(self, name = "Firebomb", description = "deals (5-8) fire damage", price = 8):   
+        self.name = name
+        self.description = description
+        self.price = price
+
+    def use(player, enemy):
         roll = randint(1, 20)
         if (roll + player.to_hit) >= enemy.armor:
             if Helper.is_goblin(enemy) or Helper.is_shadow(enemy):
@@ -218,7 +230,80 @@ class Store:
             if Helper.is_zombie(enemy):
                 print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing by a hair. The firebomb \nexplodes into flames just behind the zombie noticeably damaging it's feet. You're sure if you can land a hit with a \nfirebomb, you can kill this thing.\n")
 
-    #todo add weapon that increases attack power by 2. Make it fairly expensive.
+
+
+class Evade:
+    def __init__(self, name = "Evade", description = "temporarily increases AC by 4 (2 turns)", price = 10):   
+        self.name = name
+        self.description = description
+        self.price = price
+
+    def use(player):
+        pass
+
+
+
+class Water_Balloon:
+    def __init__(self, name = "Water Balloon", description = "just what it sounds like...a balloon filled with water", price = 3):   
+        self.name = name
+        self.description = description
+        self.price = price
+
+    def use(player, enemy):
+        roll = randint(1, 20)
+        if (roll + player.to_hit) >= enemy.armor:
+            if Helper.is_goblin(fire_serpent):
+                damage = randint(1, 4) + 4
+                enemy.health -= damage
+                print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, landing a direct hit. The {enemy.race} \ncries out in pain as it takes {damage} water damage.\n")
+            else:
+                print(f"The {enemy.race} is now wet and looking very annoyed.")
+        else:
+            print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, missing.")
+
+
+
+# Store Upgrades
+class AC_Upgrade:
+    def __init__(self, name = "AC Upgrade", description = "permanently increases AC by 2", price = 20):   
+        self.name = name
+        self.description = description
+        self.price = price
+
+
+
+class HP_Upgrade:
+    def __init__(self, name = "HP Upgrade", description = "permanently increases max HP by 4", price = 20):   
+        self.name = name
+        self.description = description
+        self.price = price
+
+
+
+class To_Hit_Upgrade:
+    def __init__(self, name = "To-Hit Upgrade", description = "permanently increases hit chance by 2", price = 20):   
+        self.name = name
+        self.description = description
+        self.price = price
+
+
+
+class Greataxe:
+    def __init__(self, name = "Greataxe", description = "permanently increases attack power by 2", price = 20):   
+        self.name = name
+        self.description = description
+        self.price = price
+
+
+
+class Bug_in_Bottle:
+    def __init__(self, name = "Bug in a Bottle", description = "interesting looking bug in a bottle", price = 5):   
+        self.name = name
+        self.description = description
+        self.price = price
+
+
+#todo add weapon that increases attack power by 2. Make it fairly expensive.
 
 class Helper:
         
@@ -243,25 +328,12 @@ class Helper:
     def is_fire_serpent(enemy):
         return isinstance(enemy, Fire_Serpent)
 
-    def use_item():
-        if Player.inventory != []:
-            print("Which item would you like to use?")
-            for item in inventory:
-                print(f"{inventory.index(item) + 1}.{item.name}")
-            input()
-
-
-# creating heros
-# fighter = Fighter("human", "Baden", health = 50, has_bug = True)
-# medic = Medic("human", "Thigrel", health = 50, has_bug = True)
-# rogue = Rogue("human", "Khiiral", health = 50, has_bug = True)
-
-# creatings standard enemies
+# creatings standard bounties
 goblin = Goblin()
 shadow = Shadow()
 troll = Troll()
 
-# creating bounties
+# creating specialty bounties
 mudmug = Goblin(name = "Mudmug", health = randint(10, 11), attack_power = randint(3, 4), bounty = 6, is_specialty_bounty = True)
 stigg = Goblin(name = "Stigg", health = randint(13, 14), to_hit =  randint(2, 3), bounty = 7, is_specialty_bounty = True)
 undead_ned = Zombie(name = "Undead Ned", is_specialty_bounty = True)
@@ -269,4 +341,16 @@ big_nellie = Troll(name = "Big Nellie", health = randint(30, 35), attack_power =
 lighthouse_shadow = Shadow(name = "Shadow of the Lighthouse", health = randint(3, 4), attack_power = randint(4, 5), armor = randint(18, 19), bounty = 15, is_specialty_bounty = True)
 fire_serpent = Fire_Serpent(is_specialty_bounty = True)
 
+# creating standard shop items
+super_tonic = Super_Tonic
+firebomb = Firebomb
+evade = Evade
+water_balloon = Water_Balloon
+
+# creating specialty shop items
+ac_upgrade = AC_Upgrade
+hp_upgrade = HP_Upgrade
+to_hit_upgrade = To_Hit_Upgrade
+greataxe = Greataxe
+bug_in_bottle = Bug_in_Bottle
 
