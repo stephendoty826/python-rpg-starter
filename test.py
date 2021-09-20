@@ -1,28 +1,17 @@
+# x = [1, 2, 3, 4, 5, 6, 7]
 
-# import math
+# print("type in a number")
 
-# x = 50
+# raw_input = input()
 
-# print(x)
+# if isinstance(int(raw_input), int):
+#     print(x[int(raw_input)])
+# else:
+#     print("invalid input")
 
-# x -= 7
+def test():
+    print("not hello")
 
-# print(x)
-
-# print(round(7/2))
-
-# print(x + round(7/2))
-
-x = [1, 2, 3, 4, 5, 6, 7]
-
-print("type in a number")
-
-raw_input = input()
-
-if isinstance(int(raw_input), int):
-    print(x[int(raw_input)])
-else:
-    print("invalid input")
-
-
+if test():
+    print("hello")
 

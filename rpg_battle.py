@@ -13,21 +13,23 @@ Zombie = rpg_classes.Zombie
 Shadow = rpg_classes.Shadow
 Fire_Serpent = rpg_classes.Fire_Serpent
 Helper = rpg_classes.Helper
+
 Firebomb = rpg_classes.Firebomb
 Super_Tonic = rpg_classes.Super_Tonic
+Evade = rpg_classes.Evade
 
-
+evade = Evade()
 
 #todo implement multiple heros/enemies? 
 
 def battle(player, enemy):
     combat_turn = 1
-
+    is_evading = -1
     print(f"\nYou spot your bounty in the distance, a lone {enemy.race}.\n")
     while enemy.alive() and player.alive():
         player.print_status()
-        print("\nWhat do you want to do?")
-        print(f"1. Fight {enemy.race}")
+        print("What do you want to do?")
+        print(f"1. Attack {enemy.race}")
         print("2. Spy")
         print("3. Use an item")
         print("4. Do nothing")
@@ -47,32 +49,31 @@ def battle(player, enemy):
                 else:
                     player.current_bounty = []
                     player.coin_purse += enemy.bounty
-                    print(f"{player.name} received {enemy.bounty} coins for a total of {player.coin_purse}.")
+                    print(f"{player.name} received {enemy.bounty} gold. You now have {player.coin_purse} gold.")
                     print("________________________________________________________________________________________________\n")
         elif raw_input == "2":
             player.spy(enemy)
         elif raw_input == "3":
-            # rpg_functions.check_inventory(player)
-            # if player.inventory != []:
-            #     pass
-            # Firebomb.use(player, enemy)
-            Super_Tonic.use(player, enemy)
+            rpg_functions.use_item(player, enemy)
+            if player.is_evading:
+                player.armor += 4
+                is_evading = 2
             if enemy.health <= 0:
                 if Helper.is_zombie(enemy):
                     print(f"The {enemy.race} is truly dead this time.\n")
                     player.current_bounty = []
                     player.coin_purse += enemy.bounty
-                    print(f"{player.name} received {enemy.bounty} coins for a total of {player.coin_purse}.")
+                    print(f"{player.name} received {enemy.bounty} gold. You now have {player.coin_purse} gold.")
                 else:
                     print(f"The {enemy.race} is dead.\n")
                     player.current_bounty = []
                     player.coin_purse += enemy.bounty
-                    print(f"{player.name} received {enemy.bounty} coins for a total of {player.coin_purse}.")
+                    print(f"{player.name} received {enemy.bounty} gold. You now have {player.coin_purse} gold.")
                 print("________________________________________________________________________________________________\n")
         elif raw_input == "4":
             pass
         elif raw_input == "5":
-            print("Goodbye.\n")
+            print("You flee and from the fight.\n")
             break
         else:
             print(f"Invalid input {raw_input}\n")
@@ -92,6 +93,14 @@ def battle(player, enemy):
                 else:
                     enemy.attack(player)
                     print("________________________________________________________________________________________________\n")
+            
+            
+            if is_evading > 0:
+                is_evading -= 1
+            elif is_evading == 0:
+                player.armor -= 4
+                player.is_evading = False
+                is_evading = -1
             if player.health <= 0:
                 print(f"{player.name} is dead.")
                 print("________________________________________________________________________________________________\n")

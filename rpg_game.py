@@ -21,7 +21,9 @@ def main(player):
         print("2. Go to town")
         print("3. View current bounty")
         print("4. View inventory")
-        print("5. Quit")
+        print("5. View status")
+        print("6. Pay off debt.")
+        print("7. Quit")
         # print("3. Explore.")
         print("> ", end = ' ')
         raw_input = input()
@@ -40,9 +42,18 @@ def main(player):
             else:
                 print(f"You current bounty is {player.current_bounty[0].name} ({player.current_bounty[0].race}) - {player.current_bounty[0].bounty} gold.\n")
         elif raw_input == "4":
-            print("Thanks for playing.\n")
-            break
+            rpg_functions.check_inventory(player)
         elif raw_input == "5":
+            player.print_status()
+        elif raw_input == "6":
+            if player.coin_purse >= 100:
+                print("You head back home and pay off your debt.\n")
+                print("Congratulations. You won the game.\n")
+                print("Created by Stephen Doty\n")
+                break
+            else:
+                print("You don't have the 100 gold required to pay off your debt. Better head back into town and find some work.\n6")
+        elif raw_input == "7":
             print("Thanks for playing.\n")
             break
         else:
@@ -98,12 +109,4 @@ def character_creation():
 class_type, player_name = character_creation()
 player = class_type(race = "human", name = player_name)
 
-player.coin_purse = 5
-
 main(player)
-
-
-
-
-
-#todo have shop with option to view info of item. 

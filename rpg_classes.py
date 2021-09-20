@@ -53,10 +53,7 @@ class Character:
         return alive
 
     def print_status(self):
-        print(f"{self.name} - HP: {self.health}, Attack: {self.attack_power}, To-hit: {self.to_hit}, AC: {self.armor}")
-
-
-
+        print(f"{self.name} - HP: {self.health}, Attack: {self.attack_power}, To-hit: {self.to_hit}, AC: {self.armor}\n")
 
 
 
@@ -74,7 +71,6 @@ class Player(Character):
         print(f"{self.name} uses spy on the {enemy.race} - HP: {enemy.health}, AC: {enemy.armor}\n")
 
 
-
 class Enemy(Character):
     def __init__(self, race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty):
         super().__init__(race, name, health, attack_power, to_hit, armor)
@@ -89,12 +85,10 @@ class Enemy(Character):
 
 
 
-
-
-
 class Fighter(Player):
-    def __init__(self, race, has_bug = False, name = "Fighter", health = 12, attack_power = 3, to_hit = 1, armor = 9):
+    def __init__(self, race, has_bug = False, name = "Fighter", health = 12, attack_power = 3, to_hit = 1, armor = 9, is_evading = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, has_bug, coin_purse = 0)
+        self.is_evading = is_evading
 
     def attack(self, enemy):
         roll = randint(1, 20)
@@ -112,10 +106,10 @@ class Fighter(Player):
     #todo: add auto crit attack which takes special ability points...
 
 
-
 class Medic(Player):
-    def __init__(self, race, has_bug = False, name = "Medic", health = 10, attack_power = 3, to_hit = 0, armor = 8):
+    def __init__(self, race, has_bug = False, name = "Medic", health = 10, attack_power = 3, to_hit = 0, armor = 8, is_evading = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, has_bug, coin_purse = 0)
+        self.is_evading = is_evading
 
     def heal(self):
         healing_chance = randint(1, 4)
@@ -129,10 +123,10 @@ class Medic(Player):
     #     healing = chance()
 
 
-
 class Rogue(Player):
-    def __init__(self, race, has_bug = False, name = "Rogue", health = 11, attack_power = 3, to_hit = 3, armor = 7):
+    def __init__(self, race, has_bug = False, name = "Rogue", health = 11, attack_power = 3, to_hit = 3, armor = 7, is_evading = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, has_bug, coin_purse = 0)
+        self.is_evading = is_evading
 
     def chance_evade(self):
         evade_chance = randint(1, 4)
@@ -147,14 +141,12 @@ class Rogue(Player):
 
 
 
-
-
-
 class Goblin(Enemy):
     def __init__(self, race = "goblin", name = "Goblin", health = randint(7, 8), attack_power = randint(2, 3), to_hit = randint(0, 1), armor = randint(7, 8), bounty = 3, is_specialty_bounty = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty)
 
     #todo: add special abilities (critical hit) that can run "randomly" (1 in 8) per battle
+
 
 class Zombie(Enemy):
     def __init__(self, race = "zombie", name = "Zombie", health = randint(12, 16), attack_power = randint(1, 2), to_hit = randint(0, 1), armor = randint(5, 7), bounty = 15, is_specialty_bounty = False):
@@ -166,17 +158,20 @@ class Zombie(Enemy):
 
     #todo: add special abilities (bite that poisons you and you take 1 damage for 3 turns) that can run "randomly" (1 in 8) per battle  
 
+
 class Shadow(Enemy):
     def __init__(self, race = "shadow", name = "Shadow", health = randint(1, 2), attack_power = randint(3, 4), to_hit = randint(5, 6), armor = randint(17, 18), bounty = 6, is_specialty_bounty = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty)
     
     #todo: add special abilities (something that skips your turn?) that can run "randomly" (1 in 8) per battle
 
+
 class Fire_Serpent(Enemy):
     def __init__(self, race = "fire serpent", name = "Fire Serpent", health = randint(18, 20), attack_power = randint(4, 5), to_hit = randint(2, 3), armor = randint(11, 13), bounty = 30, is_specialty_bounty = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty)
 
     #todo: add special abilities (firebreath that does 3x damage and 1 damage per turn for 3 turns) that can run "randomly" (1 in 5) per battle
+
 
 class Troll(Enemy):
     def __init__(self, race = "troll", name = "Troll", health = randint(25, 30), attack_power = randint(6, 7), to_hit = randint(-3, -1), armor = randint(4, 5), bounty = 10, is_specialty_bounty = False):
@@ -191,15 +186,14 @@ class Super_Tonic:
         self.description = description
         self.price = price
 
-    def use(player, enemy):
+    def use(self, player, enemy):
         regen = randint(1, 4) * 2 + 4
         if regen + player.health > player.max_hp:
             player.health = player.max_hp
-            print(f"{player.name} uses Super Tonic is back at Max HP.")
+            print(f"{player.name} uses Super Tonic and is back at Max HP.")
         else:
             player.health += regen
             print(f"{player.name} uses Super Tonic and regains {regen} HP.")
-
 
 
 class Firebomb:
@@ -208,10 +202,10 @@ class Firebomb:
         self.description = description
         self.price = price
 
-    def use(player, enemy):
+    def use(self, player, enemy):
         roll = randint(1, 20)
         if (roll + player.to_hit) >= enemy.armor:
-            if Helper.is_goblin(enemy) or Helper.is_shadow(enemy):
+            if Helper.is_goblin(enemy) or Helper.is_shadow(enemy) or Helper.is_troll(enemy):
                 damage = randint(1, 4) + 4
                 enemy.health -= damage
                 print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, landing a direct hit. The {enemy.race} \ncries out in pain as it takes {damage} fire damage.\n")
@@ -223,13 +217,12 @@ class Firebomb:
                 enemy.health += regen
                 print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, landing a direct hit. The fire \nserpent laps up the fire and regains {regen} HP.\n")
         else:
-            if Helper.is_goblin(enemy) or Helper.is_shadow(enemy):
+            if Helper.is_goblin(enemy) or Helper.is_shadow(enemy) or Helper.is_troll(enemy):
                 print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing. The firebomb explodes into \nflames behind the {enemy.race} cause no damage.\n")
             if Helper.is_fire_serpent(enemy):
                 print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing. The fire serpent easily \nslithers right through the flames and prepares for an attack.\n")
             if Helper.is_zombie(enemy):
                 print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing by a hair. The firebomb \nexplodes into flames just behind the zombie noticeably damaging it's feet. You're sure if you can land a hit with a \nfirebomb, you can kill this thing.\n")
-
 
 
 class Evade:
@@ -238,9 +231,8 @@ class Evade:
         self.description = description
         self.price = price
 
-    def use(player):
-        pass
-
+    def use(self, player, enemy):
+        player.is_evading = True
 
 
 class Water_Balloon:
@@ -249,7 +241,7 @@ class Water_Balloon:
         self.description = description
         self.price = price
 
-    def use(player, enemy):
+    def use(self, player, enemy):
         roll = randint(1, 20)
         if (roll + player.to_hit) >= enemy.armor:
             if Helper.is_goblin(fire_serpent):
@@ -257,10 +249,9 @@ class Water_Balloon:
                 enemy.health -= damage
                 print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, landing a direct hit. The {enemy.race} \ncries out in pain as it takes {damage} water damage.\n")
             else:
-                print(f"The {enemy.race} is now wet and looking very annoyed.")
+                print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, landing a direct hit. Your attack \ndoes no damage. The {enemy.race} is now wet and looks very annoyed.")
         else:
             print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, missing.")
-
 
 
 # Store Upgrades
@@ -270,6 +261,9 @@ class AC_Upgrade:
         self.description = description
         self.price = price
 
+    def use(self, player):
+        player.armor += 2
+        print(f"{player.name}'s armor has increase to {player.armor}. You now have {player.coin_purse} gold.\n")
 
 
 class HP_Upgrade:
@@ -278,7 +272,9 @@ class HP_Upgrade:
         self.description = description
         self.price = price
 
-
+    def use(self, player):
+        player.health += 4
+        print(f"{player.name}'s health has increase to {player.health}. You now have {player.coin_purse} gold.\n")
 
 class To_Hit_Upgrade:
     def __init__(self, name = "To-Hit Upgrade", description = "permanently increases hit chance by 2", price = 20):   
@@ -286,7 +282,9 @@ class To_Hit_Upgrade:
         self.description = description
         self.price = price
 
-
+    def use(self, player):
+        player.to_hit += 2
+        print(f"{player.name}'s hit chance has increase to {player.to_hit}. You now have {player.coin_purse} gold.\n")
 
 class Greataxe:
     def __init__(self, name = "Greataxe", description = "permanently increases attack power by 2", price = 20):   
@@ -294,7 +292,9 @@ class Greataxe:
         self.description = description
         self.price = price
 
-
+    def use(self, player):
+        player.attack_power += 2
+        print(f"{player.name}'s attack power has increase to {player.attack_power}. You now have {player.coin_purse} gold.\n")
 
 class Bug_in_Bottle:
     def __init__(self, name = "Bug in a Bottle", description = "interesting looking bug in a bottle", price = 5):   
@@ -302,6 +302,9 @@ class Bug_in_Bottle:
         self.description = description
         self.price = price
 
+    def use(self, player):
+        player.has_bug = True
+        print("You purchased the interesting looking bug in a bottle.\n")
 
 #todo add weapon that increases attack power by 2. Make it fairly expensive.
 
@@ -328,6 +331,10 @@ class Helper:
     def is_fire_serpent(enemy):
         return isinstance(enemy, Fire_Serpent)
 
+    def is_troll(enemy):
+        return isinstance(enemy, Troll)
+
+
 # creatings standard bounties
 goblin = Goblin()
 shadow = Shadow()
@@ -342,15 +349,20 @@ lighthouse_shadow = Shadow(name = "Shadow of the Lighthouse", health = randint(3
 fire_serpent = Fire_Serpent(is_specialty_bounty = True)
 
 # creating standard shop items
-super_tonic = Super_Tonic
-firebomb = Firebomb
-evade = Evade
-water_balloon = Water_Balloon
+super_tonic = Super_Tonic()
+firebomb = Firebomb()
+evade = Evade()
+water_balloon = Water_Balloon()
 
 # creating specialty shop items
-ac_upgrade = AC_Upgrade
-hp_upgrade = HP_Upgrade
-to_hit_upgrade = To_Hit_Upgrade
-greataxe = Greataxe
-bug_in_bottle = Bug_in_Bottle
+ac_upgrade = AC_Upgrade()
+hp_upgrade = HP_Upgrade()
+to_hit_upgrade = To_Hit_Upgrade()
+greataxe = Greataxe()
+bug_in_bottle = Bug_in_Bottle()
 
+player = Fighter(race = "human")
+
+enemy = Goblin()
+
+evade.use(player, enemy)
