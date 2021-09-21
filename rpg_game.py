@@ -1,3 +1,5 @@
+import time
+
 from rpg_battle import *
 
 from rpg_town import *
@@ -13,7 +15,8 @@ rogue = Rogue(race = "human")
 #     }
 
 def main(player):
-    print("With only 5 gold to your name, you start searching for bounties. Better head into town and grab one.\n")
+    # time.sleep(1)
+    print(f"With only {player.coin_purse} gold to your name, you start searching for bounties. Better head into town and grab one.\n")
     town(player)
     while True:
         print("What do you want to do?")
@@ -60,13 +63,13 @@ def main(player):
             print(f"Invalid input {raw_input}")
 
 def character_creation():
-    print("\nWelcome to \"Hunter RPG\" where you play as a bounty hunter and fight monsters to earn money. Your goal is to \nget at least 100 gold to pay off some accrued debt.\n")
+    print("\nWelcome to \"Hunter RPG\" where you play as a bounty hunter and fight monsters to earn money. Your goal is to \nearn at least 100 gold to pay off some accrued debt.\n")
     print("It's time to create your character.")
     print("You can choose between three different classes - Figher, Medic and Rogue.\n")
     while True: 
-        print("1. The Fighter has the most health (12 HP) and the most armor (9 AC) and will occasionally do double damage.")
-        print("2. The Medic has less health (10 HP) but decent armor (8 AC) and will occasionally heal a bit in battle.")
-        print("3. The Rogue has decent health (11 HP) and the lowest armor (7 AC) but will occasionally take half damage from attacks.\n")
+        print("1. The Fighter has the most health (13 HP) and the most armor (9 AC) and will occasionally do double damage.")
+        print("2. The Medic has less health (11 HP) but decent armor (8 AC) and will occasionally heal a bit in battle.")
+        print("3. The Rogue has decent health (12 HP) and the lowest armor (7 AC) but will occasionally take half damage from attacks.\n")
         print("Which class could you like to play as?")
         print("> ", end = ' ')
         class_names = ["Fighter", "Medic", "Rogue"]
@@ -109,4 +112,15 @@ def character_creation():
 class_type, player_name = character_creation()
 player = class_type(race = "human", name = player_name)
 
+player.coin_purse = 5
+
 main(player)
+
+# todo import time and use time.sleep(<your time here>) to have text scroll 
+    # There are different ways to do it, depending on how you want it to print out.
+
+# todo include import pickle to be able to save???
+
+# todo add music and sound effects???
+
+# todo add ASCII and other art/pictures

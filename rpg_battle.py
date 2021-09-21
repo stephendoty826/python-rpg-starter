@@ -93,8 +93,6 @@ def battle(player, enemy):
                 else:
                     enemy.attack(player)
                     print("________________________________________________________________________________________________\n")
-            
-            
             if is_evading > 0:
                 is_evading -= 1
             elif is_evading == 0:
@@ -105,3 +103,4 @@ def battle(player, enemy):
                 print(f"{player.name} is dead.")
                 print("________________________________________________________________________________________________\n")
         combat_turn += 1
+    #todo have line where player regens small amount of health after battle

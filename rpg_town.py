@@ -57,6 +57,7 @@ def town(player):
             if player.coin_purse < 5:
                 print("You don't have enough gold to stay at the inn. Turn in some bounties to earn some money.\n")
             else:
+                #todo add description that resting at the inn will restore full health. Give Yes or No option
                 player.health = player.max_hp
                 player.coin_purse -= 5
                 print(f"Your health is fully restored to {player.health} HP. You now have {player.coin_purse} gold.\n")
@@ -261,7 +262,7 @@ def old_man_brigham():
         print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
-        response_list = ["Ned who lives in the farmhouse always said he wanted to be cremated. Well, now that he's dead maybe he'll get his wish.", "GO ON! GIT OUTTA HERE! Sorry...these darn kids keep running through my yard.", "Have you spoken to our village elder? Liana's such a nice lady. I remember when she was just a little girl following after her mother...", "People say I've got a few screws loose but I'll tell you what, if you got a fire you want put out, throw some water on it. \nThat's all I'm sayin'...that's all.", "Back in my day, we used to work for a living. Not like Lynette and her two boys, always running around whilly nilly and such."]
+        response_list = ["Ned who lives in the farmhouse always said he wanted to be cremated. Well, now that he's dead maybe he'll get his wish.", "GO ON! GIT OUTTA HERE! These darn kids...always runnin' through my yard.", "Have you spoken to our village elder? Liana's such a nice lady. I remember when she was just a little girl following after her mother...", "People say I've got a few screws loose but I'll tell you what, if you got a fire you want put out, throw some water on it. \nThat's all I'm sayin'...that's all.", "Back in my day, we used to work for a living. Not like Lynette and her two boys, always running around whilly nilly and such."]
         if raw_input == "1":
             if index == len(response_list):
                 index = 0
@@ -286,7 +287,7 @@ def elder_liana():
         print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
-        response_list = ["If it's not to much to ask, our town has need of your help. We normally get supplied from the town north of \nhere, but a fire serpent has recently made that area her hunting ground and now we can't get proper supplies.", "Old man Ned died recently and well...he's not as dead as he once was. Now his corpse roams the old farm house and attacks anyone who goes near.", "Ever heard of Big Nellie. That troll has caused us a lot of trouble in recent months. So much so that her head's worth double the normal bounty.", "Feel free to look at our bounty board if your interested in some work. It has standard bounties you can do multiple times \nand specialty bounties you can only do once. The specialty bounties pay better but the target is harder."]
+        response_list = ["If it's not to much to ask, our town has need of your help. We normally get supplied from the town north of \nhere, but a fire serpent has recently made that area her hunting ground and now we can't get proper supplies.", "Old Farmer Ned died recently and well...he's not as dead as he once was. Now his corpse roams the old farm house and attacks anyone who goes near.", "Ever heard of Big Nellie. That troll has caused us a lot of trouble in recent months. So much so that her head's worth double the normal bounty.", "Feel free to look at our bounty board if your interested in some work. It has standard bounties you can do multiple times \nand specialty bounties you can only do once. The specialty bounties pay better but the target is harder."]
         if raw_input == "1":
             if index == len(response_list):
                 index = 0
@@ -302,8 +303,11 @@ def elder_liana():
 
 
 
+boy_inventory = []
+# todo add option to sell boy up to 4 water balloons for 5 gold each
+
 def small_boy(player):
-    print("Sell me something. Please sell me something with \"C\".\n")
+    print("Sell me something. Please sell me something with \"C\". [says the boy as he eagerly bounces up and down.]\n")
     while True:
         print("1. Show the small boy what's in your pack.")
         print("2. Back")

@@ -86,7 +86,7 @@ class Enemy(Character):
 
 
 class Fighter(Player):
-    def __init__(self, race, has_bug = False, name = "Fighter", health = 12, attack_power = 3, to_hit = 1, armor = 9, is_evading = False):
+    def __init__(self, race, has_bug = False, name = "Fighter", health = 13, attack_power = 3, to_hit = 3, armor = 10, is_evading = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, has_bug, coin_purse = 0)
         self.is_evading = is_evading
 
@@ -107,7 +107,7 @@ class Fighter(Player):
 
 
 class Medic(Player):
-    def __init__(self, race, has_bug = False, name = "Medic", health = 10, attack_power = 3, to_hit = 0, armor = 8, is_evading = False):
+    def __init__(self, race, has_bug = False, name = "Medic", health = 11, attack_power = 3, to_hit = 2, armor = 9, is_evading = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, has_bug, coin_purse = 0)
         self.is_evading = is_evading
 
@@ -124,7 +124,7 @@ class Medic(Player):
 
 
 class Rogue(Player):
-    def __init__(self, race, has_bug = False, name = "Rogue", health = 11, attack_power = 3, to_hit = 3, armor = 7, is_evading = False):
+    def __init__(self, race, has_bug = False, name = "Rogue", health = 12, attack_power = 3, to_hit = 5, armor = 8, is_evading = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, has_bug, coin_purse = 0)
         self.is_evading = is_evading
 
@@ -181,13 +181,13 @@ class Troll(Enemy):
 
 # Store reusable items
 class Super_Tonic:
-    def __init__(self, name = "Super Tonic", description = "restores 10 HP", price = 12):
+    def __init__(self, name = "Super Tonic", description = "restores (11 - 14) HP", price = 12):
         self.name = name
         self.description = description
         self.price = price
 
     def use(self, player, enemy):
-        regen = randint(1, 4) * 2 + 4
+        regen = randint(1, 4) + 10
         if regen + player.health > player.max_hp:
             player.health = player.max_hp
             print(f"{player.name} uses Super Tonic and is back at Max HP.")
@@ -197,7 +197,7 @@ class Super_Tonic:
 
 
 class Firebomb:
-    def __init__(self, name = "Firebomb", description = "deals (5-8) fire damage", price = 8):   
+    def __init__(self, name = "Firebomb", description = "deals (6 - 9) fire damage", price = 8):   
         self.name = name
         self.description = description
         self.price = price
@@ -206,7 +206,7 @@ class Firebomb:
         roll = randint(1, 20)
         if (roll + player.to_hit) >= enemy.armor:
             if Helper.is_goblin(enemy) or Helper.is_shadow(enemy) or Helper.is_troll(enemy):
-                damage = randint(1, 4) + 4
+                damage = randint(1, 4) + 5
                 enemy.health -= damage
                 print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, landing a direct hit. The {enemy.race} \ncries out in pain as it takes {damage} fire damage.\n")
             if Helper.is_zombie(enemy):
@@ -236,7 +236,7 @@ class Evade:
 
 
 class Water_Balloon:
-    def __init__(self, name = "Water Balloon", description = "just what it sounds like...a balloon filled with water", price = 3):   
+    def __init__(self, name = "Water Balloon", description = "just what it sounds like...a balloon filled with water", price = 1):   
         self.name = name
         self.description = description
         self.price = price
@@ -297,7 +297,7 @@ class Greataxe:
         print(f"{player.name}'s attack power has increase to {player.attack_power}. You now have {player.coin_purse} gold.\n")
 
 class Bug_in_Bottle:
-    def __init__(self, name = "Bug in a Bottle", description = "interesting looking bug in a bottle", price = 5):   
+    def __init__(self, name = "Bug in a Bottle", description = "interesting looking bug in a bottle", price = 3):   
         self.name = name
         self.description = description
         self.price = price
