@@ -67,9 +67,9 @@ def character_creation():
     print("It's time to create your character.")
     print("You can choose between three different classes - Figher, Medic and Rogue.\n")
     while True: 
-        print("1. The Fighter has the most health (13 HP) and the most armor (9 AC) and will occasionally do double damage.")
-        print("2. The Medic has less health (11 HP) but decent armor (8 AC) and will occasionally heal a bit in battle.")
-        print("3. The Rogue has decent health (12 HP) and the lowest armor (7 AC) but will occasionally take half damage from attacks.\n")
+        print("1. The Fighter has the most health (13 HP) and the most armor (10 AC) and will occasionally do double damage.")
+        print("2. The Medic has less health (11 HP) but decent armor (9 AC) and will occasionally heal a bit in battle.")
+        print("3. The Rogue has decent health (12 HP) and the lowest armor (8 AC) but will occasionally take half damage from attacks.\n")
         print("Which class could you like to play as?")
         print("> ", end = ' ')
         class_names = ["Fighter", "Medic", "Rogue"]

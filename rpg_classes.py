@@ -336,6 +336,8 @@ class Helper:
 
 
 # creatings standard bounties
+
+# currently you can only fight one of each standard bounty? 
 goblin = Goblin()
 shadow = Shadow()
 troll = Troll()
@@ -347,6 +349,8 @@ undead_ned = Zombie(name = "Undead Ned", is_specialty_bounty = True)
 big_nellie = Troll(name = "Big Nellie", health = randint(30, 35), attack_power = randint(8, 9), to_hit = randint(-1, 1), bounty = 20, is_specialty_bounty = True)
 lighthouse_shadow = Shadow(name = "Shadow of the Lighthouse", health = randint(3, 4), attack_power = randint(4, 5), armor = randint(18, 19), bounty = 15, is_specialty_bounty = True)
 fire_serpent = Fire_Serpent(is_specialty_bounty = True)
+
+# couldn't choose fire_serpent as specialty bounty
 
 # creating standard shop items
 super_tonic = Super_Tonic()

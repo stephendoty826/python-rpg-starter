@@ -11,6 +11,7 @@ Rogue = rpg_classes.Rogue
 Goblin = rpg_classes.Goblin
 Zombie = rpg_classes.Zombie
 Shadow = rpg_classes.Shadow
+Troll = rpg_classes.Troll
 Fire_Serpent = rpg_classes.Fire_Serpent
 Helper = rpg_classes.Helper
 
