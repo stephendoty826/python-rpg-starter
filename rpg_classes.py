@@ -68,6 +68,12 @@ class Player(Character):
     def spy(self, enemy):
         type_print(f"{self.name} uses spy on the {enemy.race} - HP: {enemy.health}, AC: {enemy.armor}\n")
 
+    def playHasWaterBaloon(self):
+        for item in self.inventory:
+            if item.name == "Water Baloon":
+                return True
+            return False
+
 
 class Enemy(Character):
     def __init__(self, race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty):
@@ -304,6 +310,14 @@ class Bug_in_Bottle:
         player.has_bug = True
         type_print("You purchased the interesting looking bug in a bottle.\n")
 
+class Boy:
+    def __init__(self):
+        self.inventory = []
+    
+    def count_water_balloons(self):
+        return len(self.inventory)
+
+
 #todo add weapon that increases attack power by 2. Make it fairly expensive.
 
 class Helper:
@@ -366,5 +380,7 @@ bug_in_bottle = Bug_in_Bottle()
 player = Fighter(race = "human")
 
 enemy = Goblin()
+
+boy = Boy()
 
 evade.use(player, enemy)

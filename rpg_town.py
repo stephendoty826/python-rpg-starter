@@ -333,8 +333,8 @@ def small_boy(player):
                     type_print(f"Invalid input {raw_input}\n")
             # todo add option to sell boy up to 4 water balloons for 5 gold each
             # use boy_inventory to store water baloons he has purchased
-            # elif playHasWaterBaloon(player):
-            #     print("")
+            elif player.playHasWaterBaloon():
+                print("Water Baloons...I WANT THEM. I'll buy them for 5 gold each.")
             else:
                 type_print("I don't want any of that stuff. Don't you have anything interesting?\n")
         elif raw_input == "2":
@@ -343,12 +343,6 @@ def small_boy(player):
             type_print(f"Invalid input {raw_input}\n")
         
 #todo continue setting up town
-
-def playHasWaterBaloon(player):
-    for item in player.inventory:
-        if item.name == "Water Baloon":
-            return True
-        return False
 
 
 
