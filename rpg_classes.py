@@ -317,8 +317,16 @@ class Boy:
     def count_water_balloons(self):
         return len(self.inventory)
 
+# todo make class for bounties...maybe you can track them better and make methods to recreate standard bounties when they are first killed
+# standard_bounties = [goblin, shadow, troll]
+# specialty_bounties = [mudmug, stigg, undead_ned, big_nellie, lighthouse_shadow, fire_serpent]
 
-#todo add weapon that increases attack power by 2. Make it fairly expensive.
+class Bounties:
+    def __init__(self):
+        self.standard_bounties = [goblin, shadow, troll]
+        self.specialty_bounties = [mudmug, stigg, undead_ned, big_nellie, lighthouse_shadow, fire_serpent]
+
+
 
 class Helper:
         
@@ -362,7 +370,10 @@ big_nellie = Troll(name = "Big Nellie", health = randint(30, 35), attack_power =
 lighthouse_shadow = Shadow(name = "Shadow of the Lighthouse", health = randint(3, 4), attack_power = randint(4, 5), armor = randint(18, 19), bounty = 15, is_specialty_bounty = True)
 fire_serpent = Fire_Serpent(is_specialty_bounty = True)
 
-# couldn't choose fire_serpent as specialty bounty
+# creating bounties object which contains standard_bounties and specialty_bounties lists. 
+bounties = Bounties()
+
+#todo couldn't choose fire_serpent as specialty bounty
 
 # creating standard shop items
 super_tonic = Super_Tonic()

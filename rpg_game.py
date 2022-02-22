@@ -15,6 +15,8 @@ rogue = Rogue(race = "human")
 #     "Super Tonic": "A tonic that restores 10 HP. Can be used in battle."
 #     }
 
+
+
 def main(player):
 
     type_print(f"With only {player.coin_purse} gold to your name, you head into town to find some work.\n")

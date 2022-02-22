@@ -6,6 +6,9 @@ from rpg_functions import *
 
 # town_list = ["Forstford", "MillerVille", "Dawsbury"]
 
+print(bounties.standard_bounties)
+print(bounties.specialty_bounties)
+
 def town(player):
     type_print("You arrive at the town of Dawsbury.\n")
     while True:
@@ -46,9 +49,9 @@ def town(player):
             else:
                 bounty_board(player)
         elif raw_input == "3":
-            rpg_functions.check_bounty(player)
+            check_bounty(player)
         elif raw_input == "4":
-            rpg_functions.check_inventory(player)
+            check_inventory(player)
         elif raw_input == "5":
             player.print_status()
         elif raw_input == "6":
@@ -90,7 +93,7 @@ def talk_to_locals(player):
             type_print(f"Invalid input {raw_input}\n")
 
 
-
+# todo make class for bounties...maybe you can track them better and make methods to recreate standard bounties when they are first killed
 standard_bounties = [goblin, shadow, troll]
 specialty_bounties = [mudmug, stigg, undead_ned, big_nellie, lighthouse_shadow, fire_serpent]
 
