@@ -4,7 +4,7 @@ import rpg_functions
 
 import rpg_classes
 
-Fighter = rpg_classes.Fighter
+Barbarian = rpg_classes.Barbarian
 Medic = rpg_classes.Medic
 Rogue = rpg_classes.Rogue
 
@@ -80,7 +80,7 @@ def battle(player, enemy):
             print(f"Invalid input {raw_input}\n")
         if enemy.health > 0:
             # Enemy attacks player
-            if Helper.is_fighter(player):
+            if Helper.is_barbarian(player):
                 enemy.attack(player)
                 print("________________________________________________________________________________________________\n")
             if Helper.is_medic(player):

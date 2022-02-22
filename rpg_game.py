@@ -5,7 +5,7 @@ from rpg_town import *
 
 from rpg_functions import *
 
-fighter = Fighter(race = "human")
+barbarian = Barbarian(race = "human")
 medic = Medic(race = "human")
 rogue = Rogue(race = "human")
 
@@ -67,14 +67,14 @@ def character_creation():
     type_print("\nWelcome to \"Hunter RPG\" where you play as a bounty hunter and fight monsters to earn money. Your goal is to \nearn at least 100 gold to pay off some accrued debt.\n\nIt's time to create your character.\n")
     input("Press \"Enter\" to continue\n")
     while True: 
-        type_print("You can choose between three different classes - Fighter, Medic, and Rogue.\n")
-        type_print("1. The Fighter has the most health (13 HP) and the most armor (10 AC) and will occasionally do double damage.")
+        type_print("You can choose between three different classes - Barbarian, Medic, and Rogue.\n")
+        type_print("1. The Barbarian has the most health (13 HP) and the most armor (10 AC) and will occasionally do double damage.")
         type_print("2. The Medic has less health (11 HP) but decent armor (9 AC) and will occasionally heal a bit in battle.")
         type_print("3. The Rogue has decent health (12 HP) and the lowest armor (8 AC) but will occasionally take half damage from attacks.\n")
         type_print("Which class could you like to play as?")
         print("> ", end = ' ')
-        class_names = ["Fighter", "Medic", "Rogue"]
-        classes = [Fighter, Medic, Rogue]
+        class_names = ["Barbarian", "Medic", "Rogue"]
+        classes = [Barbarian, Medic, Rogue]
         raw_input = input()
         print("________________________________________________________________________________________________\n")
         if raw_input == "1" or raw_input == "2" or raw_input == "3":

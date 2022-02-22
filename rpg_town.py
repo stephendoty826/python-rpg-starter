@@ -2,7 +2,7 @@ from random import *
 
 from rpg_classes import *
 
-import rpg_functions
+from rpg_functions import *
 
 # town_list = ["Forstford", "MillerVille", "Dawsbury"]
 
@@ -108,6 +108,8 @@ def bounty_board(player):
             type_print("1. Goblin - 3 gold")
             type_print("2. Shadow - 6 gold")
             type_print("3. Troll - 10 gold")
+            # todo add "Back option"
+            # type_print("4. Back") 
             print("> ", end = ' ')
             raw_input2 = input()
             print("________________________________________________________________________________________________\n")

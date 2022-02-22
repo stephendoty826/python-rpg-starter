@@ -16,7 +16,7 @@ from rpg_functions import *
 
 # class Player(Character):              # class Enemy(Character):
 
-# class Fighter(Player):                   # class Goblin(Enemy):
+# class Barbarian(Player):                   # class Goblin(Enemy):
 
 class Character:
     def __init__(self, race, name, health, attack_power, to_hit, armor):
@@ -89,8 +89,8 @@ class Enemy(Character):
 
 
 
-class Fighter(Player):
-    def __init__(self, race, has_bug = False, name = "Fighter", health = 13, attack_power = 3, to_hit = 3, armor = 10, is_evading = False):
+class Barbarian(Player):
+    def __init__(self, race, has_bug = False, name = "Barbarian", health = 13, attack_power = 3, to_hit = 3, armor = 10, is_evading = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, has_bug, coin_purse = 0)
         self.is_evading = is_evading
 
@@ -322,8 +322,8 @@ class Boy:
 
 class Helper:
         
-    def is_fighter(player):
-        return isinstance(player, Fighter)
+    def is_barbarian(player):
+        return isinstance(player, Barbarian)
 
     def is_medic(player):
         return isinstance(player, Medic)
@@ -377,7 +377,7 @@ to_hit_upgrade = To_Hit_Upgrade()
 greataxe = Greataxe()
 bug_in_bottle = Bug_in_Bottle()
 
-player = Fighter(race = "human")
+player = Barbarian(race = "human")
 
 enemy = Goblin()
 
