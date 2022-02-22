@@ -12,8 +12,6 @@ from rpg_functions import *
 
 #todo add OnePunchMan class that kills everything in 1 hit (make his attack power "over 9000" and print out something referring to that) and can't die
 
-
-
                         # class Character:
 
 # class Player(Character):              # class Enemy(Character):
@@ -34,16 +32,16 @@ class Character:
         roll = randint(1, 20)
         if (roll + self.to_hit) >= target.armor:
             if isinstance(self, Player):
-                print(f"HIT! {self.name} rolled a {roll + self.to_hit} which hits the {target.race}, dealing {self.attack_power} damage.\n")
+                type_print(f"HIT! {self.name} rolled a {roll + self.to_hit} which hits the {target.race}, dealing {self.attack_power} damage.\n")
             else:
-                print(f"HIT! The {self.race} rolled a {roll + self.to_hit} which hits {target.name}, dealing {self.attack_power} damage.\n")
+                type_print(f"HIT! The {self.race} rolled a {roll + self.to_hit} which hits {target.name}, dealing {self.attack_power} damage.\n")
             target.health -= self.attack_power
             return True
         else:
             if isinstance(self, Player):
-                print(f"MISS! {self.name} rolled a {roll + self.to_hit} which misses {target.race}.\n")
+                type_print(f"MISS! {self.name} rolled a {roll + self.to_hit} which misses {target.race}.\n")
             else:
-                print(f"MISS! The {self.race} rolled a {roll + self.to_hit} which misses {target.name}.\n")
+                type_print(f"MISS! The {self.race} rolled a {roll + self.to_hit} which misses {target.name}.\n")
             return False
     
     def alive(self):
@@ -53,7 +51,7 @@ class Character:
         return alive
 
     def print_status(self):
-        print(f"{self.name} - HP: {self.health}, Attack: {self.attack_power}, To-hit: {self.to_hit}, AC: {self.armor}\n")
+        type_print(f"{self.name} - HP: {self.health}, Attack: {self.attack_power}, To-hit: {self.to_hit}, AC: {self.armor}\n")
 
 
 
@@ -68,7 +66,7 @@ class Player(Character):
 
 
     def spy(self, enemy):
-        print(f"{self.name} uses spy on the {enemy.race} - HP: {enemy.health}, AC: {enemy.armor}\n")
+        type_print(f"{self.name} uses spy on the {enemy.race} - HP: {enemy.health}, AC: {enemy.armor}\n")
 
 
 class Enemy(Character):
@@ -80,7 +78,7 @@ class Enemy(Character):
     #todo need to fix. roll_to_hit() was replaced with attack in Character class. Also redo wording to match other attacks. 
     def rogue_evade_attack(self, player):
         if Character.attack(self, player):
-            print(f"{player.name} quickly dodges and only takes half-damage ({math.trunc(self.attack_power/2)})\n.")
+            type_print(f"{player.name} quickly dodges and only takes half-damage ({math.trunc(self.attack_power/2)})\n.")
             player.health += round(self.attack_power/2)
 
 
@@ -96,12 +94,12 @@ class Fighter(Player):
             crit_chance = randint(1, 4)
             if crit_chance == 4:
                 enemy.health -= self.attack_power * 2
-                print(f"HIT! {self.name} rolled a {roll + self.to_hit} which hits the {enemy.race}. {self.name}'s sword strikes true dealing {self.attack_power * 2} damage.\n")
+                type_print(f"HIT! {self.name} rolled a {roll + self.to_hit} which hits the {enemy.race}. {self.name}'s sword strikes true dealing {self.attack_power * 2} damage.\n")
             else:
                 enemy.health -= self.attack_power
-                print(f"HIT! {self.name} rolled a {roll + self.to_hit} which hits the {enemy.race}, dealing {self.attack_power} damage.\n")
+                type_print(f"HIT! {self.name} rolled a {roll + self.to_hit} which hits the {enemy.race}, dealing {self.attack_power} damage.\n")
         else:
-            print(f"MISS! {self.name} rolled a {roll + self.to_hit} which misses the {enemy.race}.\n")
+            type_print(f"MISS! {self.name} rolled a {roll + self.to_hit} which misses the {enemy.race}.\n")
 
     #todo: add auto crit attack which takes special ability points...
 
@@ -116,9 +114,9 @@ class Medic(Player):
         if healing_chance == 4:
             healing = randint(2, 3)
             self.health += healing
-            print(f"{self.name} uses healing to regain {healing} HP!\n")
+            type_print(f"{self.name} uses healing to regain {healing} HP!\n")
 
-    # todo add first_add function which takes special ability points...
+    # todo add first_aid function which takes special ability points...
     # def first_aid(self):
     #     healing = chance()
 
@@ -135,7 +133,7 @@ class Rogue(Player):
         else: 
             return False
 
-    # todo add first_add function which takes special ability points...
+    # todo add evade function which takes special ability points...
     # def first_aid(self):
     #     healing = chance()
 
@@ -149,7 +147,7 @@ class Goblin(Enemy):
 
 
 class Zombie(Enemy):
-    def __init__(self, race = "zombie", name = "Zombie", health = randint(12, 16), attack_power = randint(1, 2), to_hit = randint(0, 1), armor = randint(5, 7), bounty = 15, is_specialty_bounty = False):
+    def __init__(self, race = "zombie", name = "Zombie", health = randint(12, 16), attack_power = randint(1, 2), to_hit = randint(0, 1), armor = randint(2, 4), bounty = 15, is_specialty_bounty = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty)
 
     def undead(self):
@@ -190,10 +188,10 @@ class Super_Tonic:
         regen = randint(1, 4) + 10
         if regen + player.health > player.max_hp:
             player.health = player.max_hp
-            print(f"{player.name} uses Super Tonic and is back at Max HP.")
+            type_print(f"{player.name} uses Super Tonic and is back at Max HP.")
         else:
             player.health += regen
-            print(f"{player.name} uses Super Tonic and regains {regen} HP.")
+            type_print(f"{player.name} uses Super Tonic and regains {regen} HP.")
 
 
 class Firebomb:
@@ -208,21 +206,21 @@ class Firebomb:
             if Helper.is_goblin(enemy) or Helper.is_shadow(enemy) or Helper.is_troll(enemy):
                 damage = randint(1, 4) + 5
                 enemy.health -= damage
-                print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, landing a direct hit. The {enemy.race} \ncries out in pain as it takes {damage} fire damage.\n")
+                type_print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, landing a direct hit. The {enemy.race} \ncries out in pain as it takes {damage} fire damage.\n")
             if Helper.is_zombie(enemy):
                 enemy.health = 0
-                print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, landing a direct hit. The zombie is \nquickly engulfed in flames and topples to the ground.\n")
+                type_print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, landing a direct hit. The zombie is \nquickly engulfed in flames and topples to the ground.\n")
             if Helper.is_fire_serpent(enemy):
                 regen = randint(1, 6) + 6
                 enemy.health += regen
-                print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, landing a direct hit. The fire \nserpent laps up the fire and regains {regen} HP.\n")
+                type_print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, landing a direct hit. The fire \nserpent laps up the fire and regains {regen} HP.\n")
         else:
             if Helper.is_goblin(enemy) or Helper.is_shadow(enemy) or Helper.is_troll(enemy):
-                print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing. The firebomb explodes into \nflames behind the {enemy.race} cause no damage.\n")
+                type_print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing. The firebomb explodes into \nflames behind the {enemy.race} cause no damage.\n")
             if Helper.is_fire_serpent(enemy):
-                print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing. The fire serpent easily \nslithers right through the flames and prepares for an attack.\n")
+                type_print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing. The fire serpent easily \nslithers right through the flames and prepares for an attack.\n")
             if Helper.is_zombie(enemy):
-                print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing by a hair. The firebomb \nexplodes into flames just behind the zombie noticeably damaging it's feet. You're sure if you can land a hit with a \nfirebomb, you can kill this thing.\n")
+                type_print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the firebomb, missing by a hair. The firebomb \nexplodes into flames just behind the zombie noticeably damaging it's feet. You're sure if you can land a hit with a \nfirebomb, you can kill this thing.\n")
 
 
 class Evade:
@@ -247,11 +245,11 @@ class Water_Balloon:
             if Helper.is_goblin(fire_serpent):
                 damage = randint(1, 4) + 4
                 enemy.health -= damage
-                print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, landing a direct hit. The {enemy.race} \ncries out in pain as it takes {damage} water damage.\n")
+                type_print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, landing a direct hit. The {enemy.race} \ncries out in pain as it takes {damage} water damage.\n")
             else:
-                print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, landing a direct hit. Your attack \ndoes no damage. The {enemy.race} is now wet and looks very annoyed.")
+                type_print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, landing a direct hit. Your attack \ndoes no damage. The {enemy.race} is now wet and looks very annoyed.")
         else:
-            print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, missing.")
+            type_print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, missing.")
 
 
 # Store Upgrades
@@ -263,7 +261,7 @@ class AC_Upgrade:
 
     def use(self, player):
         player.armor += 2
-        print(f"{player.name}'s armor has increase to {player.armor}. You now have {player.coin_purse} gold.\n")
+        type_print(f"{player.name}'s armor has increase to {player.armor}. You now have {player.coin_purse} gold.\n")
 
 
 class HP_Upgrade:
@@ -274,7 +272,7 @@ class HP_Upgrade:
 
     def use(self, player):
         player.health += 4
-        print(f"{player.name}'s health has increase to {player.health}. You now have {player.coin_purse} gold.\n")
+        type_print(f"{player.name}'s health has increase to {player.health}. You now have {player.coin_purse} gold.\n")
 
 class To_Hit_Upgrade:
     def __init__(self, name = "To-Hit Upgrade", description = "permanently increases hit chance by 2", price = 20):   
@@ -284,7 +282,7 @@ class To_Hit_Upgrade:
 
     def use(self, player):
         player.to_hit += 2
-        print(f"{player.name}'s hit chance has increase to {player.to_hit}. You now have {player.coin_purse} gold.\n")
+        type_print(f"{player.name}'s hit chance has increase to {player.to_hit}. You now have {player.coin_purse} gold.\n")
 
 class Greataxe:
     def __init__(self, name = "Greataxe", description = "permanently increases attack power by 2", price = 20):   
@@ -294,7 +292,7 @@ class Greataxe:
 
     def use(self, player):
         player.attack_power += 2
-        print(f"{player.name}'s attack power has increase to {player.attack_power}. You now have {player.coin_purse} gold.\n")
+        type_print(f"{player.name}'s attack power has increase to {player.attack_power}. You now have {player.coin_purse} gold.\n")
 
 class Bug_in_Bottle:
     def __init__(self, name = "Bug in a Bottle", description = "interesting looking bug in a bottle", price = 3):   
@@ -304,7 +302,7 @@ class Bug_in_Bottle:
 
     def use(self, player):
         player.has_bug = True
-        print("You purchased the interesting looking bug in a bottle.\n")
+        type_print("You purchased the interesting looking bug in a bottle.\n")
 
 #todo add weapon that increases attack power by 2. Make it fairly expensive.
 
@@ -337,7 +335,7 @@ class Helper:
 
 # creatings standard bounties
 
-# currently you can only fight one of each standard bounty? 
+# todo - currently you can only fight one of each standard bounty. How to make it to where the standard bounties will populate when they are killed?
 goblin = Goblin()
 shadow = Shadow()
 troll = Troll()

@@ -104,4 +104,15 @@ def battle(player, enemy):
                 print(f"{player.name} is dead.")
                 print("________________________________________________________________________________________________\n")
         combat_turn += 1
-    #todo have line where player regens small amount of health after battle
+    #todo review this code to see if it will work they way you want it to   
+    if player.health < player.maxhp:
+        health_regen = randint(1, 3)
+        player.health += health_regen
+        if player.health >= player.maxhp:
+            player.health = player.maxhp
+            print(f"After the battle, you bandaged your wounds and are back up to full health.")
+        else:
+            print(f"After the battle, you bandage your wounds and regain {health_regen} hit points.")
+
+    
+

@@ -7,17 +7,17 @@ import rpg_functions
 # town_list = ["Forstford", "MillerVille", "Dawsbury"]
 
 def town(player):
-    print("You arrive at the town of Dawsbury.\n")
+    type_print("You arrive at the town of Dawsbury.\n")
     while True:
-        print("What would you like to do?")
-        print("1. Talk to the locals")
-        print("2. View the bounty board")
-        print("3. View current bounty")
-        print("4. View inventory")
-        print("5. View status")
-        print("6. Shop for items")
-        print("7. Rest at the inn (5 gold)")
-        print("8. Leave town")
+        type_print("What would you like to do?")
+        type_print("1. Talk to the locals")
+        type_print("2. View the bounty board")
+        type_print("3. View current bounty")
+        type_print("4. View inventory")
+        type_print("5. View status")
+        type_print("6. Shop for items")
+        type_print("7. Rest at the inn (5 gold)")
+        type_print("8. Leave town")
         print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
@@ -25,9 +25,9 @@ def town(player):
             talk_to_locals(player)
         elif raw_input == "2":
             if player.current_bounty != []:
-                print(f"You current bounty is {player.current_bounty[0].name} ({player.current_bounty[0].race}) - {player.current_bounty[0].bounty} gold.\nWould you like to choose a different bounty?\n")
-                print("1. Yes")
-                print("2. No")
+                type_print(f"You current bounty is {player.current_bounty[0].name} ({player.current_bounty[0].race}) - {player.current_bounty[0].bounty} gold.\nWould you like to choose a different bounty?\n")
+                type_print("1. Yes")
+                type_print("2. No")
                 print("> ", end = ' ')
                 raw_input2 = input()
                 print("________________________________________________________________________________________________\n")
@@ -42,7 +42,7 @@ def town(player):
                 elif raw_input2 == "2":
                     pass
                 else:
-                    print(f"Invalid input {raw_input}\n")
+                    type_print(f"Invalid input {raw_input}\n")
             else:
                 bounty_board(player)
         elif raw_input == "3":
@@ -55,26 +55,26 @@ def town(player):
             shop(player)
         elif raw_input == "7":
             if player.coin_purse < 5:
-                print("You don't have enough gold to stay at the inn. Turn in some bounties to earn some money.\n")
+                type_print("You don't have enough gold to stay at the inn. Turn in some bounties to earn some money.\n")
             else:
                 #todo add description that resting at the inn will restore full health. Give Yes or No option
                 player.health = player.max_hp
                 player.coin_purse -= 5
-                print(f"Your health is fully restored to {player.health} HP. You now have {player.coin_purse} gold.\n")
+                type_print(f"Your health is fully restored to {player.health} HP. You now have {player.coin_purse} gold.\n")
         elif raw_input == "8":
             break
         else:
-            print(f"Invalid input {raw_input}\n")
+            type_print(f"Invalid input {raw_input}\n")
 
 
 
 def talk_to_locals(player):
     while True:
-        print("Who do you want to talk to?\n")
-        print("1. Old Man Brigham")
-        print("2. Elder Liana")
-        print("3. Small boy")
-        print("4. Back")
+        type_print("Who do you want to talk to?\n")
+        type_print("1. Old Man Brigham")
+        type_print("2. Elder Liana")
+        type_print("3. Small boy")
+        type_print("4. Back")
         print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
@@ -87,7 +87,7 @@ def talk_to_locals(player):
         elif raw_input == "4":
             break
         else:
-            print(f"Invalid input {raw_input}\n")
+            type_print(f"Invalid input {raw_input}\n")
 
 
 
@@ -96,45 +96,45 @@ specialty_bounties = [mudmug, stigg, undead_ned, big_nellie, lighthouse_shadow, 
 
 def bounty_board(player):
     while True:
-        print("Which bounties would you like to view?\n")
-        print("1. Standard Bounties")
-        print("2. Specialty Bounties")
-        print("3. Back")
+        type_print("Which bounties would you like to view?\n")
+        type_print("1. Standard Bounties")
+        type_print("2. Specialty Bounties")
+        type_print("3. Back")
         print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
         if raw_input == "1":
-            print("The following standard bounties are avaiable. Please select which one you would like to take.\n")
-            print("1. Goblin - 3 gold")
-            print("2. Shadow - 6 gold")
-            print("3. Troll - 10 gold")
+            type_print("The following standard bounties are avaiable. Please select which one you would like to take.\n")
+            type_print("1. Goblin - 3 gold")
+            type_print("2. Shadow - 6 gold")
+            type_print("3. Troll - 10 gold")
             print("> ", end = ' ')
             raw_input2 = input()
             print("________________________________________________________________________________________________\n")
             try:
                 if isinstance(int(raw_input2), int):
-                    print(f"You have selected {standard_bounties[int(raw_input2) - 1].name}. Take this bounty?\n")
-                    print("1. Yes")
-                    print("2. No")
+                    type_print(f"You have selected {standard_bounties[int(raw_input2) - 1].name}. Take this bounty?\n")
+                    type_print("1. Yes")
+                    type_print("2. No")
                     print("> ", end = ' ')
                     raw_input5 = input()
                     print("________________________________________________________________________________________________\n")
                     if raw_input5 == "1":
-                        print(f"You have chosen {standard_bounties[int(raw_input2) - 1].name} as your bounty. Happy hunting!\n")
+                        type_print(f"You have chosen {standard_bounties[int(raw_input2) - 1].name} as your bounty. Happy hunting!\n")
                         player.current_bounty.append(standard_bounties[int(raw_input2) - 1])
                         break
                     elif raw_input5 == "2":
                         pass
                     else:
-                        print(f"Invalid input {raw_input5}\n")
+                        type_print(f"Invalid input {raw_input5}\n")
             except:
-                print(f"Invalid input {raw_input2}\n") 
+                type_print(f"Invalid input {raw_input2}\n") 
         elif raw_input == "2":
             if specialty_bounties != []:
-                print("The following specialty bounties are avaiable. Please select which one you would like to take.\n")
+                type_print("The following specialty bounties are avaiable. Please select which one you would like to take.\n")
                 count = 1
                 for bounty in specialty_bounties:
-                    print(f"{count}. {bounty.name} ({bounty.race}) - {bounty.bounty} gold")
+                    type_print(f"{count}. {bounty.name} ({bounty.race}) - {bounty.bounty} gold")
                     count += 1
                 print("> ", end = ' ')
                 raw_input3 = input()
@@ -142,47 +142,47 @@ def bounty_board(player):
                 try:
                     if isinstance(int(raw_input3), int):
                         print("________________________________________________________________________________________________\n")
-                        print(f"You have selected {specialty_bounties[int(raw_input3) - 1].name}. Take this bounty?\n")
-                        print("1. Yes")
-                        print("2. No")
+                        type_print(f"You have selected {specialty_bounties[int(raw_input3) - 1].name}. Take this bounty?\n")
+                        type_print("1. Yes")
+                        type_print("2. No")
                         print("> ", end = ' ')
                         raw_input4 = input()
                         print("________________________________________________________________________________________________\n")
                         if raw_input4 == "1":
-                            print(f"You have chosen {specialty_bounties[int(raw_input3) - 1].name} as your bounty. Happy hunting!\n")
+                            type_print(f"You have chosen {specialty_bounties[int(raw_input3) - 1].name} as your bounty. Happy hunting!\n")
                             player.current_bounty.append(specialty_bounties[int(raw_input3) - 1])
                             del specialty_bounties[int(raw_input3) - 1]
                             break
                         elif raw_input4 == "2":
                             pass
                         else:
-                            print(f"Invalid input {raw_input4}\n")
+                            type_print(f"Invalid input {raw_input4}\n")
                 except:
-                    print(f"Invalid input {raw_input3}\n")
+                    type_print(f"Invalid input {raw_input3}\n")
             else:
-                print("All specialty bounties have been completed. Please feel free to check out our standard bounties.\n")
+                type_print("All specialty bounties have been completed. Please feel free to check out our standard bounties.\n")
         elif raw_input == "3":
             break
         else:
-            print(f"Invalid input {raw_input}\n")
+            type_print(f"Invalid input {raw_input}\n")
     
 standard_items = [super_tonic, firebomb, evade, water_balloon]
 specialty_items = [ac_upgrade, hp_upgrade, to_hit_upgrade, greataxe, bug_in_bottle]
 
 def shop(player):
     while True:
-        print("Which items would you like to view?\n")
-        print("1. Standard Items")
-        print("2. Specialty Items")
-        print("3. Back")
+        type_print("Which items would you like to view?\n")
+        type_print("1. Standard Items")
+        type_print("2. Specialty Items")
+        type_print("3. Back")
         print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
         if raw_input == "1":
-            print("The following standard items are available. Please select which one you would like to purchase.\n")
+            type_print("The following standard items are available. Please select which one you would like to purchase.\n")
             count = 1
             for item in standard_items:
-                print(f"{count}. {item.name}: ({item.description}) - {item.price} gold")
+                type_print(f"{count}. {item.name}: ({item.description}) - {item.price} gold")
                 count += 1
             print("> ", end = ' ')
             raw_input2 = input()
@@ -190,33 +190,33 @@ def shop(player):
             try:
                 if isinstance(int(raw_input2), int):
                     if player.coin_purse - standard_items[int(raw_input2) - 1].price < 0:
-                        print("You don't have enough gold for that.")
+                        type_print("You don't have enough gold for that.")
                         pass
                     else:
-                        print(f"You have selected {standard_items[int(raw_input2) - 1].name}. Purchase this item?\n")
-                        print("1. Yes")
-                        print("2. No")
+                        type_print(f"You have selected {standard_items[int(raw_input2) - 1].name}. Purchase this item?\n")
+                        type_print("1. Yes")
+                        type_print("2. No")
                         print("> ", end = ' ')
                         raw_input5 = input()
                         print("________________________________________________________________________________________________\n")
                         if raw_input5 == "1":
-                            print(f"You have purchased {standard_items[int(raw_input2) - 1].name}. You now have {player.coin_purse} gold.\n")
-                            print(f"You now have {player.coin_purse} gold.\n")
-                            player.inventory.append(standard_items[int(raw_input2) - 1])
                             player.coin_purse -= standard_items[int(raw_input2) - 1].price
+                            type_print(f"You have purchased {standard_items[int(raw_input2) - 1].name}. You now have {player.coin_purse} gold.\n")
+                            # print(f"You now have {player.coin_purse} gold.\n")
+                            player.inventory.append(standard_items[int(raw_input2) - 1])
                             break
                         elif raw_input5 == "2":
                             pass
                         else:
-                            print(f"Invalid input {raw_input5}\n")
+                            type_print(f"Invalid input {raw_input5}\n")
             except:
-                print(f"Invalid input {raw_input2}\n") 
+                type_print(f"Invalid input {raw_input2}\n") 
         elif raw_input == "2":
             if specialty_items != []:
-                print("The following specialty items are avaiable. Please select which one you would like to purchase.\n")
+                type_print("The following specialty items are avaiable. Please select which one you would like to purchase.\n")
                 count = 1
                 for item in specialty_items:
-                    print(f"{count}. {item.name}: ({item.description}) - {item.price} gold")
+                    type_print(f"{count}. {item.name}: ({item.description}) - {item.price} gold")
                     count += 1
                 print("> ", end = ' ')
                 raw_input3 = input()
@@ -224,12 +224,12 @@ def shop(player):
                 try:
                     if isinstance(int(raw_input3), int):
                         if player.coin_purse - specialty_items[int(raw_input3) - 1].price < 0:
-                            print("You don't have enough gold for that.")
+                            type_print("You don't have enough gold for that.")
                             pass
                         else:
-                            print(f"You have selected {specialty_items[int(raw_input3) - 1].name}. Purchase this item?\n")
-                            print("1. Yes")
-                            print("2. No")
+                            type_print(f"You have selected {specialty_items[int(raw_input3) - 1].name}. Purchase this item?\n")
+                            type_print("1. Yes")
+                            type_print("2. No")
                             print("> ", end = ' ')
                             raw_input4 = input()
                             print("________________________________________________________________________________________________\n")
@@ -241,24 +241,24 @@ def shop(player):
                             elif raw_input4 == "2":
                                 pass
                             else:
-                                print(f"Invalid input {raw_input4}\n")
+                                type_print(f"Invalid input {raw_input4}\n")
                 except:
-                    print(f"Invalid input {raw_input3}\n")
+                    type_print(f"Invalid input {raw_input3}\n")
             else:
-                print("We are sold out of specialty items. Please feel free to check out our standard items.\n")
+                type_print("We are sold out of specialty items. Please feel free to check out our standard items.\n")
         elif raw_input == "3":
             break
         else:
-            print(f"Invalid input {raw_input}\n")
+            type_print(f"Invalid input {raw_input}\n")
 
 
 
 def old_man_brigham():
-    print("Well, hello there. You must be one of those adventuring types.\n")
+    type_print("Well, hello there. You must be one of those adventuring types.\n")
     index = 0
     while True:
-        print("1. Talk to Old Man Brigham")
-        print("2. Back")
+        type_print("1. Talk to Old Man Brigham")
+        type_print("2. Back")
         print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
@@ -266,24 +266,24 @@ def old_man_brigham():
         if raw_input == "1":
             if index == len(response_list):
                 index = 0
-                print(f"{response_list[index]}\n")
+                type_print(f"{response_list[index]}\n")
                 index += 1
             else:
-                print(f"{response_list[index]}\n")
+                type_print(f"{response_list[index]}\n")
                 index += 1
         elif raw_input == "2":
             break
         else:
-            print(f"Invalid input {raw_input}\n")
+            type_print(f"Invalid input {raw_input}\n")
 
 
 
 def elder_liana():
-    print("Hello, I am the village elder. My name is Liana.\n")
+    type_print("Hello, I am the village elder. My name is Liana.\n")
     index = 0
     while True:
-        print("1. Talk to Elder Liana")
-        print("2. Back")
+        type_print("1. Talk to Elder Liana")
+        type_print("2. Back")
         print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
@@ -291,53 +291,65 @@ def elder_liana():
         if raw_input == "1":
             if index == len(response_list):
                 index = 0
-                print(f"{response_list[index]}\n")
+                type_print(f"{response_list[index]}\n")
                 index += 1
             else:
-                print(f"{response_list[index]}\n")
+                type_print(f"{response_list[index]}\n")
                 index += 1
         elif raw_input == "2":
             break
         else:
-            print(f"Invalid input {raw_input}\n")
+            type_print(f"Invalid input {raw_input}\n")
 
 
 
-boy_inventory = []
-# todo add option to sell boy up to 4 water balloons for 5 gold each
+# boy_inventory = []
+# todo add option to sell boy up to 4 water balloons for 5 gold each. Will need to make boy Class to keep track of number of water baloons he has. 
 
 def small_boy(player):
-    print("Sell me something. Please sell me something with \"C\". [says the boy as he eagerly bounces up and down.]\n")
+    type_print("Sell me something. Please sell me something with \"C\". [says the boy as he eagerly bounces up and down.]\n")
     while True:
-        print("1. Show the small boy what's in your pack.")
-        print("2. Back")
+        type_print("1. Show the small boy what's in your pack.")
+        type_print("2. Back")
         print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
         if raw_input == "1":
             if player.has_bug:
-                print("Oh, how cute. I'll buy that bug for 15 gold.\n")
-                print("1. Sell the bug.")
-                print("2. Keep the bug.")
+                type_print("Oh, how cute. I'll buy that bug for 15 gold.\n")
+                type_print("1. Sell the bug.")
+                type_print("2. Keep the bug.")
+                print("> ", end = ' ')
                 raw_input2 = input()
                 print("________________________________________________________________________________________________\n")
                 if raw_input2 == "1":
-                    print("Yay! I get my own little friend. I will name him Albert and he will be my friend.\n")
+                    type_print("Yay! I get my own little friend. I will name him Albert and he will be my friend.\n")
                     player.coin_purse += 15
                     player.has_bug = False
-                    print(f"You sold the bug for 15 gold. Now you have {player.coin_purse} gold.\n")
+                    type_print(f"You sold the bug for 15 gold. Now you have {player.coin_purse} gold.\n")
                 elif raw_input2 == "2":
-                    print("Oh, you're no fun. Well, if you change your mind, you know where to find me.\n")
+                    type_print("Oh, you're no fun. Well, if you change your mind, you know where to find me.\n")
                 else:
-                    print(f"Invalid input {raw_input}\n")
+                    type_print(f"Invalid input {raw_input}\n")
+            # todo add option to sell boy up to 4 water balloons for 5 gold each
+            # use boy_inventory to store water baloons he has purchased
+            # elif playHasWaterBaloon(player):
+            #     print("")
             else:
-                print("I don't want any of that stuff. Don't you have anything interesting?\n")
+                type_print("I don't want any of that stuff. Don't you have anything interesting?\n")
         elif raw_input == "2":
             break
         else:
-            print(f"Invalid input {raw_input}\n")
+            type_print(f"Invalid input {raw_input}\n")
         
 #todo continue setting up town
+
+def playHasWaterBaloon(player):
+    for item in player.inventory:
+        if item.name == "Water Baloon":
+            return True
+        return False
+
 
 
 
