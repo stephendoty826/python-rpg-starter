@@ -64,15 +64,20 @@ class Player(Character):
         self.inventory = inventory
         self.current_bounty = current_bounty
 
-
     def spy(self, enemy):
         type_print(f"{self.name} uses spy on the {enemy.race} - HP: {enemy.health}, AC: {enemy.armor}\n")
 
+    def fire_serpent_burns(self, target):
+        if Helper.is_fire_serpent(target):
+            fire_damage = randint(2, 3)
+            self.health -= fire_damage
+            type_print(f"{self.name} feels a sudden surge of heat upon striking the Fire Serpent losing {fire_damage} health.\n")
+
     def playHasWaterBaloon(self):
         for item in self.inventory:
-            if item.name == "Water Baloon":
+            if item.name == "Water Balloon":
                 return True
-            return False
+        return False
 
 
 class Enemy(Character):
@@ -118,7 +123,7 @@ class Medic(Player):
     def heal(self):
         healing_chance = randint(1, 4)
         if healing_chance == 4:
-            healing = randint(2, 3)
+            healing = randint(2, 4)
             self.health += healing
             type_print(f"{self.name} uses healing to regain {healing} HP!\n")
 
@@ -175,6 +180,8 @@ class Fire_Serpent(Enemy):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty)
 
     #todo: add special abilities (firebreath that does 3x damage and 1 damage per turn for 3 turns) that can run "randomly" (1 in 5) per battle
+    # def fire_breath(self, player):
+    #     fire_breath_roll = randint(1, 5)
 
 
 class Troll(Enemy):
@@ -235,7 +242,7 @@ class Evade:
         self.description = description
         self.price = price
 
-    def use(self, player, enemy):
+    def use(self, player):
         player.is_evading = True
 
 
@@ -249,7 +256,7 @@ class Water_Balloon:
         roll = randint(1, 20)
         if (roll + player.to_hit) >= enemy.armor:
             if Helper.is_goblin(fire_serpent):
-                damage = randint(1, 4) + 4
+                damage = randint(1, 4) + 6
                 enemy.health -= damage
                 type_print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, landing a direct hit. The {enemy.race} \ncries out in pain as it takes {damage} water damage.\n")
             else:
@@ -308,59 +315,57 @@ class Bug_in_Bottle:
 
     def use(self, player):
         player.has_bug = True
-        type_print("You purchased the interesting looking bug in a bottle.\n")
+        type_print(f"You purchased the interesting looking bug in a bottle. You now have {player.coin_purse} gold.\n")
 
 class Boy:
     def __init__(self):
         self.inventory = []
     
-    def count_water_balloons(self):
-        return len(self.inventory)
-
-# todo make class for bounties...maybe you can track them better and make methods to recreate standard bounties when they are first killed
-# standard_bounties = [goblin, shadow, troll]
-# specialty_bounties = [mudmug, stigg, undead_ned, big_nellie, lighthouse_shadow, fire_serpent]
+    def is_inventory_full(self):
+        if len(self.inventory) == 4:
+            return True
+        return False
+        # return True or False
+    
+    def buy_water_balloon(self, player):
+        index = player.inventory.index(water_balloon)
+        del player.inventory[index]
 
 class Bounties:
     def __init__(self):
-        self.standard_bounties = [goblin, shadow, troll]
+        self.standard_bounties = []
         self.specialty_bounties = [mudmug, stigg, undead_ned, big_nellie, lighthouse_shadow, fire_serpent]
 
 
 
 class Helper:
         
-    def is_barbarian(player):
-        return isinstance(player, Barbarian)
+    def is_barbarian(character):
+        return isinstance(character, Barbarian)
 
-    def is_medic(player):
-        return isinstance(player, Medic)
+    def is_medic(character):
+        return isinstance(character, Medic)
 
-    def is_rogue(player):
-        return isinstance(player, Rogue)
+    def is_rogue(character):
+        return isinstance(character, Rogue)
 
-    def is_goblin(enemy):
-        return isinstance(enemy, Goblin)
+    def is_goblin(character):
+        return isinstance(character, Goblin)
 
-    def is_zombie(enemy):
-        return isinstance(enemy, Zombie)
+    def is_zombie(character):
+        return isinstance(character, Zombie)
 
-    def is_shadow(enemy):
-        return isinstance(enemy, Shadow)
+    def is_shadow(character):
+        return isinstance(character, Shadow)
 
-    def is_fire_serpent(enemy):
-        return isinstance(enemy, Fire_Serpent)
+    def is_fire_serpent(character):
+        return isinstance(character, Fire_Serpent)
 
-    def is_troll(enemy):
-        return isinstance(enemy, Troll)
+    def is_troll(character):
+        return isinstance(character, Troll)
 
 
-# creatings standard bounties
-
-# todo - currently you can only fight one of each standard bounty. How to make it to where the standard bounties will populate when they are killed?
-goblin = Goblin()
-shadow = Shadow()
-troll = Troll()
+# standard bounties are reset and created right before viewing the bounty board (see line 99 on rpg_town.py) 
 
 # creating specialty bounties
 mudmug = Goblin(name = "Mudmug", health = randint(10, 11), attack_power = randint(3, 4), bounty = 6, is_specialty_bounty = True)
@@ -394,4 +399,4 @@ enemy = Goblin()
 
 boy = Boy()
 
-evade.use(player, enemy)
+# evade.use(player, enemy)

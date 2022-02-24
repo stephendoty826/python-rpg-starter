@@ -1,40 +1,40 @@
 from random import *
 
-import rpg_classes
+# import rpg_classes
 
 import time
 
-evade = rpg_classes.Evade()
+# evade = rpg_classes.Evade()
 
 
 
 def check_bounty(player):
     if player.current_bounty == []:
-        print("You currently don't have a bounty. Be sure to check the bounty board in town to grab one.\n ")
+        type_print("You currently don't have a bounty. Be sure to check the bounty board in town to grab one.\n ")
     else:
-        print(f"You current bounty is {player.current_bounty[0].name} ({player.current_bounty[0].race}) - {player.current_bounty[0].bounty} gold.\n")
+        type_print(f"You current bounty is {player.current_bounty[0].name} ({player.current_bounty[0].race}) - {player.current_bounty[0].bounty} gold.\n")
 
 def check_inventory(player):
     if player.inventory == []:
-        print("You currently don't have any items. Be sure to check visit the shop the buy some.")
-        print(f"You currently have {player.coin_purse} gold.\n")
+        type_print("You currently don't have any items. Be sure to check visit the shop the buy some.")
+        type_print(f"You currently have {player.coin_purse} gold.\n")
     else:
-        print(f"You are carrying the following items.\n")
+        type_print(f"You are carrying the following items.\n")
         for i in range(len(player.inventory)):
-            print(f"{player.inventory[i].name}: - {player.inventory[i].description}")
-        print(f"You currently have {player.coin_purse} gold.\n")
+            type_print(f"{player.inventory[i].name}: - {player.inventory[i].description}")
+        type_print(f"You currently have {player.coin_purse} gold.\n")
 
 def use_item(player, enemy):
     if player.inventory == []:
-        print("You currently don't have any items. Be sure to check visit the shop the buy some.")
-        print(f"You currently have {player.coin_purse} gold.\n")
+        type_print("You currently don't have any items. Be sure to check visit the shop the buy some.")
+        type_print(f"You currently have {player.coin_purse} gold.\n")
     else:
-        print(f"You are carrying the following items. Which item would you like to use?\n")
+        type_print(f"You are carrying the following items. Which item would you like to use?\n")
         count = 1
         for item in player.inventory:
-            print(f"{count}. {item.name}: - {item.description}")
+            type_print(f"{count}. {item.name}: - {item.description}")
             count += 1
-        print("> ", end = ' ')
+        type_print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
         try:
@@ -42,13 +42,13 @@ def use_item(player, enemy):
                 player.inventory[int(raw_input) - 1].use(player, enemy)
                 del player.inventory[int(raw_input) - 1]
         except:
-            print(f"Invalid input {raw_input}\n") 
+            type_print(f"Invalid input {raw_input}\n") 
 
 # Text Printing Functions
 def type_print(string):
     for i in string:
         print(i, end = '', flush = True)
-        time.sleep(0.01)
+        time.sleep(0.005)
     print()
 
 def slow_type_print(string):

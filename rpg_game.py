@@ -3,7 +3,7 @@ from rpg_battle import *
 
 from rpg_town import *
 
-from rpg_functions import *
+from rpg_functions import type_print
 
 barbarian = Barbarian(race = "human")
 medic = Medic(race = "human")
@@ -48,7 +48,7 @@ def main(player):
             else:
                 type_print(f"You current bounty is {player.current_bounty[0].name} ({player.current_bounty[0].race}) - {player.current_bounty[0].bounty} gold.\n")
         elif raw_input == "4":
-            rpg_functions.check_inventory(player)
+            check_inventory(player)
         elif raw_input == "5":
             player.print_status()
         elif raw_input == "6":
@@ -67,7 +67,8 @@ def main(player):
 
 def character_creation():
     type_print("\nWelcome to \"Hunter RPG\" where you play as a bounty hunter and fight monsters to earn money. Your goal is to \nearn at least 100 gold to pay off some accrued debt.\n\nIt's time to create your character.\n")
-    input("Press \"Enter\" to continue\n")
+    type_print("Press \"Enter\" to continue")
+    input()
     while True: 
         type_print("You can choose between three different classes - Barbarian, Medic, and Rogue.\n")
         type_print("1. The Barbarian has the most health (13 HP) and the most armor (10 AC) and will occasionally do double damage.")
@@ -112,15 +113,18 @@ def character_creation():
     player_name = raw_input3
     return class_type, player_name
 
-class_type, player_name = character_creation()
-player = class_type(race = "human", name = player_name)
+# uncomment for character creation
+# class_type, player_name = character_creation()
+# player = class_type(race = "human", name = player_name)
 
-player.coin_purse = 5
+# comment out to enable character creation
+player = Barbarian(race = "human")
+
+player.coin_purse = 50
 
 main(player)
 
-# todo import time and use time.sleep(<your time here>) to have text scroll 
-    # There are different ways to do it, depending on how you want it to print out.
+
 
 # todo include import pickle to be able to save???
 

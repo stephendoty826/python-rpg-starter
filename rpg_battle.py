@@ -1,6 +1,6 @@
 from random import *
 
-import rpg_functions
+from rpg_functions import *
 
 import rpg_classes
 
@@ -17,67 +17,68 @@ Helper = rpg_classes.Helper
 
 Firebomb = rpg_classes.Firebomb
 Super_Tonic = rpg_classes.Super_Tonic
-Evade = rpg_classes.Evade
+# Evade = rpg_classes.Evade
 
-evade = Evade()
+# evade = Evade()
 
 #todo implement multiple heros/enemies? 
 
 def battle(player, enemy):
     combat_turn = 1
     is_evading = -1
-    print(f"\nYou spot your bounty in the distance, a lone {enemy.race}.\n")
+    type_print(f"\nYou spot your bounty in the distance, a lone {enemy.race}.\n")
     while enemy.alive() and player.alive():
         player.print_status()
-        print("What do you want to do?")
-        print(f"1. Attack {enemy.race}")
-        print("2. Spy")
-        print("3. Use an item")
-        print("4. Do nothing")
-        print("5. Flee")
+        type_print("What do you want to do?")
+        type_print(f"1. Attack {enemy.race}")
+        type_print("2. Spy")
+        type_print("3. Use an item")
+        type_print("4. Do nothing")
+        type_print("5. Flee")
         print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
         if raw_input == "1":
             # Player attacks enemy
             player.attack(enemy)
+            player.fire_serpent_burns(enemy)
             if enemy.health <= 0:
-                print(f"The {enemy.race} is dead.\n")
+                type_print(f"The {enemy.race} is dead.\n")
                 if Helper.is_zombie(enemy): # enemy is a zombie and it can't be killed. 
                     enemy.undead()
-                    print("Moments later, the zombie slowly rises to it's feet again. This thing just won't die.\n")
+                    type_print("Moments later, the zombie slowly rises to it's feet again. This thing just won't die.\n")
                     print("________________________________________________________________________________________________\n")
                 else:
                     player.current_bounty = []
                     player.coin_purse += enemy.bounty
-                    print(f"{player.name} received {enemy.bounty} gold. You now have {player.coin_purse} gold.")
+                    type_print(f"{player.name} received {enemy.bounty} gold. You now have {player.coin_purse} gold.")
                     print("________________________________________________________________________________________________\n")
         elif raw_input == "2":
             player.spy(enemy)
         elif raw_input == "3":
-            rpg_functions.use_item(player, enemy)
+            use_item(player, enemy)
             if player.is_evading:
                 player.armor += 4
                 is_evading = 2
             if enemy.health <= 0:
                 if Helper.is_zombie(enemy):
-                    print(f"The {enemy.race} is truly dead this time.\n")
+                    type_print(f"The {enemy.race} is truly dead this time.\n")
                     player.current_bounty = []
                     player.coin_purse += enemy.bounty
-                    print(f"{player.name} received {enemy.bounty} gold. You now have {player.coin_purse} gold.")
+                    type_print(f"{player.name} received {enemy.bounty} gold. You now have {player.coin_purse} gold.")
                 else:
-                    print(f"The {enemy.race} is dead.\n")
+                    type_print(f"The {enemy.race} is dead.\n")
                     player.current_bounty = []
                     player.coin_purse += enemy.bounty
-                    print(f"{player.name} received {enemy.bounty} gold. You now have {player.coin_purse} gold.")
+                    type_print(f"{player.name} received {enemy.bounty} gold. You now have {player.coin_purse} gold.")
                 print("________________________________________________________________________________________________\n")
         elif raw_input == "4":
             pass
         elif raw_input == "5":
-            print("You flee and from the fight.\n")
+            type_print("You flee and from the fight.\n")
             break
         else:
-            print(f"Invalid input {raw_input}\n")
+            type_print(f"Invalid input {raw_input}\n")
         if enemy.health > 0:
             # Enemy attacks player
             if Helper.is_barbarian(player):
@@ -101,18 +102,21 @@ def battle(player, enemy):
                 player.is_evading = False
                 is_evading = -1
             if player.health <= 0:
-                print(f"{player.name} is dead.")
+                type_print(f"{player.name} is dead.")
                 print("________________________________________________________________________________________________\n")
         combat_turn += 1
-    #todo review this code to see if it will work they way you want it to   
-    if player.health < player.maxhp:
-        health_regen = randint(1, 3)
+    # player attempts to bandage their wounds after battle to regain a small amount of health. 
+    if player.health < player.max_hp:
+        health_regen = randint(0, 2)
         player.health += health_regen
-        if player.health >= player.maxhp:
-            player.health = player.maxhp
-            print(f"After the battle, you bandaged your wounds and are back up to full health.")
+        if health_regen != 0:
+            if player.health >= player.max_hp:
+                player.health = player.max_hp
+                type_print(f"After the battle, you bandaged your wounds and are back up to full health.\n")
+            else:
+                type_print(f"After the battle, you bandage your wounds and regain {health_regen} health.\n")
         else:
-            print(f"After the battle, you bandage your wounds and regain {health_regen} hit points.")
+            type_print(f"After the battle, you attempt to bandage your wounds but fail to do any healing.\n")
 
     
 
