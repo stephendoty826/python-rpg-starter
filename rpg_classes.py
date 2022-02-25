@@ -151,7 +151,7 @@ class Rogue(Player):
 
 
 class Goblin(Enemy):
-    def __init__(self, race = "goblin", name = "Goblin", health = randint(7, 8), attack_power = randint(2, 3), to_hit = randint(0, 1), armor = randint(7, 8), bounty = 3, is_specialty_bounty = False):
+    def __init__(self, race = "goblin", name = "Goblin", health = randint(6, 7), attack_power = randint(2, 3), to_hit = randint(0, 1), armor = randint(7, 8), bounty = 3, is_specialty_bounty = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty)
 
     #todo: add special abilities (critical hit) that can run "randomly" (1 in 8) per battle
@@ -169,7 +169,7 @@ class Zombie(Enemy):
 
 
 class Shadow(Enemy):
-    def __init__(self, race = "shadow", name = "Shadow", health = randint(1, 2), attack_power = randint(3, 4), to_hit = randint(5, 6), armor = randint(17, 18), bounty = 6, is_specialty_bounty = False):
+    def __init__(self, race = "shadow", name = "Shadow", health = randint(1, 2), attack_power = randint(3, 4), to_hit = randint(5, 6), armor = randint(16, 17), bounty = 7, is_specialty_bounty = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty)
     
     #todo: add special abilities (something that skips your turn?) that can run "randomly" (1 in 8) per battle
@@ -185,7 +185,7 @@ class Fire_Serpent(Enemy):
 
 
 class Troll(Enemy):
-    def __init__(self, race = "troll", name = "Troll", health = randint(25, 30), attack_power = randint(6, 7), to_hit = randint(-3, -1), armor = randint(4, 5), bounty = 10, is_specialty_bounty = False):
+    def __init__(self, race = "troll", name = "Troll", health = randint(25, 30), attack_power = randint(6, 7), to_hit = randint(-3, -1), armor = randint(4, 5), bounty = 15, is_specialty_bounty = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, bounty, is_specialty_bounty)
 #todo add more enemies (use dnd monsters for ideas)
 
@@ -201,10 +201,10 @@ class Super_Tonic:
         regen = randint(1, 4) + 10
         if regen + player.health > player.max_hp:
             player.health = player.max_hp
-            type_print(f"{player.name} uses Super Tonic and is back at Max HP.")
+            type_print(f"{player.name} uses Super Tonic and is back up to full health.")
         else:
             player.health += regen
-            type_print(f"{player.name} uses Super Tonic and regains {regen} HP.")
+            type_print(f"{player.name} uses Super Tonic and regains {regen} health.")
 
 
 class Firebomb:
@@ -255,14 +255,15 @@ class Water_Balloon:
     def use(self, player, enemy):
         roll = randint(1, 20)
         if (roll + player.to_hit) >= enemy.armor:
-            if Helper.is_goblin(fire_serpent):
+
+            if Helper.is_fire_serpent(fire_serpent):
                 damage = randint(1, 4) + 6
                 enemy.health -= damage
                 type_print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, landing a direct hit. The {enemy.race} \ncries out in pain as it takes {damage} water damage.\n")
             else:
                 type_print(f"HIT! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, landing a direct hit. Your attack \ndoes no damage. The {enemy.race} is now wet and looks very annoyed.")
         else:
-            type_print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, missing.")
+            type_print(f"MISS! {player.name} rolls a {roll + player.to_hit} and throws the water balloon, missing the {enemy.race}.")
 
 
 # Store Upgrades
@@ -295,7 +296,7 @@ class To_Hit_Upgrade:
 
     def use(self, player):
         player.to_hit += 2
-        type_print(f"{player.name}'s hit chance has increase to {player.to_hit}. You now have {player.coin_purse} gold.\n")
+        type_print(f"{player.name}'s to-hit has increase to {player.to_hit}. You now have {player.coin_purse} gold.\n")
 
 class Greataxe:
     def __init__(self, name = "Greataxe", description = "permanently increases attack power by 2", price = 20):   
@@ -321,15 +322,16 @@ class Boy:
     def __init__(self):
         self.inventory = []
     
-    def is_inventory_full(self):
+    def inventory_not_full(self):
         if len(self.inventory) == 4:
-            return True
-        return False
+            return False
+        return True
         # return True or False
     
     def buy_water_balloon(self, player):
         index = player.inventory.index(water_balloon)
-        del player.inventory[index]
+        purchased_item = player.inventory.pop(index)
+        self.inventory.append(purchased_item)
 
 class Bounties:
     def __init__(self):
@@ -368,10 +370,10 @@ class Helper:
 # standard bounties are reset and created right before viewing the bounty board (see line 99 on rpg_town.py) 
 
 # creating specialty bounties
-mudmug = Goblin(name = "Mudmug", health = randint(10, 11), attack_power = randint(3, 4), bounty = 6, is_specialty_bounty = True)
-stigg = Goblin(name = "Stigg", health = randint(13, 14), to_hit =  randint(2, 3), bounty = 7, is_specialty_bounty = True)
+mudmug = Goblin(name = "Mudmug", health = randint(10, 11), attack_power = randint(3, 4), bounty = 8, is_specialty_bounty = True)
+stigg = Goblin(name = "Stigg", health = randint(13, 14), to_hit =  randint(2, 3), bounty = 10, is_specialty_bounty = True)
 undead_ned = Zombie(name = "Undead Ned", is_specialty_bounty = True)
-big_nellie = Troll(name = "Big Nellie", health = randint(30, 35), attack_power = randint(8, 9), to_hit = randint(-1, 1), bounty = 20, is_specialty_bounty = True)
+big_nellie = Troll(name = "Big Nellie", health = randint(30, 35), attack_power = randint(8, 9), to_hit = randint(-1, 1), bounty = 30, is_specialty_bounty = True)
 lighthouse_shadow = Shadow(name = "Shadow of the Lighthouse", health = randint(3, 4), attack_power = randint(4, 5), armor = randint(18, 19), bounty = 15, is_specialty_bounty = True)
 fire_serpent = Fire_Serpent(is_specialty_bounty = True)
 

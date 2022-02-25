@@ -7,9 +7,9 @@ from rpg_functions import *
 # town_list = ["Forstford", "MillerVille", "Dawsbury"]
 
 def town(player):
-    type_print("You arrive at the town of Dawsbury.\n")
+    type_print("You arrive at the town of Dawsbury.")
     while True:
-        type_print("What would you like to do?")
+        type_print("\nWhat would you like to do?\n")
         type_print("1. Talk to the locals")
         type_print("2. View the bounty board")
         type_print("3. View current bounty")
@@ -54,13 +54,22 @@ def town(player):
         elif raw_input == "6":
             shop(player)
         elif raw_input == "7":
-            if player.coin_purse < 5:
-                type_print("You don't have enough gold to stay at the inn. Turn in some bounties to earn some money.\n")
+            type_print("Resting at the inn will fully restore your health. Rest for 5 gold?\n")
+            type_print("1. Yes")
+            type_print("2. No")
+            type_print(f"You have {player.coin_purse} gold.")
+            print("> ", end = ' ')
+            rest_input = input()
+            if rest_input == "1":
+                if player.coin_purse < 5:
+                    type_print("\nYou don't have enough gold to stay at the inn. Turn in some bounties to earn some money.")
+                else:
+                    #todo add description that resting at the inn will restore full health. Give Yes or No option
+                    player.health = player.max_hp
+                    player.coin_purse -= 5
+                    type_print(f"\nYour health is fully restored to {player.health} HP. You now have {player.coin_purse} gold.")
             else:
-                #todo add description that resting at the inn will restore full health. Give Yes or No option
-                player.health = player.max_hp
-                player.coin_purse -= 5
-                type_print(f"Your health is fully restored to {player.health} HP. You now have {player.coin_purse} gold.\n")
+                pass
         elif raw_input == "8":
             break
         else:
@@ -70,7 +79,7 @@ def town(player):
 
 def talk_to_locals(player):
     while True:
-        type_print("Who do you want to talk to?\n")
+        type_print("\nWho do you want to talk to?\n")
         type_print("1. Old Man Brigham")
         type_print("2. Elder Liana")
         type_print("3. Small boy")
@@ -101,7 +110,7 @@ def bounty_board(player):
     troll = Troll()
     bounties.standard_bounties = [goblin, shadow, troll]
     while True:
-        type_print("Which bounties would you like to view?\n")
+        type_print("\nWhich bounties would you like to view?\n")
         type_print("1. Standard Bounties")
         type_print("2. Specialty Bounties")
         type_print("3. Back")
@@ -113,7 +122,8 @@ def bounty_board(player):
             type_print("1. Goblin - 3 gold")
             type_print("2. Shadow - 6 gold")
             type_print("3. Troll - 10 gold")
-            type_print("4. Back") 
+            type_print("4. Back")
+            type_print(f"You have {player.coin_purse} gold.")
             print("> ", end = ' ')
             raw_input2 = input()
             print("________________________________________________________________________________________________\n")
@@ -146,6 +156,7 @@ def bounty_board(player):
                     type_print(f"{count}. {bounty.name} ({bounty.race}) - {bounty.bounty} gold")
                     count += 1
                 type_print(f"{count}. Back")
+                type_print(f"You have {player.coin_purse} gold.")
                 print("> ", end = ' ')
                 raw_input3 = input()
                 print("________________________________________________________________________________________________\n")
@@ -155,7 +166,6 @@ def bounty_board(player):
                         pass
                     else:
                         if isinstance(int(raw_input3), int):
-                            print("________________________________________________________________________________________________\n")
                             type_print(f"You have selected {bounties.specialty_bounties[int(raw_input3) - 1].name}. Take this bounty?\n")
                             type_print("1. Yes")
                             type_print("2. No")
@@ -185,7 +195,7 @@ specialty_items = [ac_upgrade, hp_upgrade, to_hit_upgrade, greataxe, bug_in_bott
 
 def shop(player):
     while True:
-        type_print("Which items would you like to view?\n")
+        type_print("\nWhich items would you like to view?\n")
         type_print("1. Standard Items")
         type_print("2. Specialty Items")
         type_print("3. Back")
@@ -198,7 +208,7 @@ def shop(player):
             for item in standard_items:
                 type_print(f"{count}. {item.name}: ({item.description}) - {item.price} gold")
                 count += 1
-            type_print(f"{count + 1}. Back")
+            type_print(f"You have {player.coin_purse} gold.")
             print("> ", end = ' ')
             raw_input2 = input()
             print("________________________________________________________________________________________________\n") 
@@ -208,9 +218,10 @@ def shop(player):
                         type_print("You don't have enough gold for that.")
                         pass
                     else:
-                        type_print(f"You have selected {standard_items[int(raw_input2) - 1].name}. Purchase this item?\n")
+                        type_print(f"You have selected {standard_items[int(raw_input2) - 1].name}. Purchase this item for {standard_items[int(raw_input2) - 1].price} gold?\n")
                         type_print("1. Yes")
                         type_print("2. No")
+                        type_print(f"You have {player.coin_purse} gold.")
                         print("> ", end = ' ')
                         raw_input5 = input()
                         print("________________________________________________________________________________________________\n")
@@ -232,6 +243,7 @@ def shop(player):
                 for item in specialty_items:
                     type_print(f"{count}. {item.name}: ({item.description}) - {item.price} gold")
                     count += 1
+                type_print(f"You have {player.coin_purse} gold.")
                 print("> ", end = ' ')
                 raw_input3 = input()
                 print("________________________________________________________________________________________________\n")
@@ -241,9 +253,10 @@ def shop(player):
                             type_print("You don't have enough gold for that.")
                             pass
                         else:
-                            type_print(f"You have selected {specialty_items[int(raw_input3) - 1].name}. Purchase this item?\n")
+                            type_print(f"You have selected {specialty_items[int(raw_input3) - 1].name}. Purchase this item {specialty_items[int(raw_input3) - 1].price} gold?\n")
                             type_print("1. Yes")
                             type_print("2. No")
+                            type_print(f"You have {player.coin_purse} gold.")
                             print("> ", end = ' ')
                             raw_input4 = input()
                             print("________________________________________________________________________________________________\n")
@@ -257,6 +270,7 @@ def shop(player):
                             else:
                                 type_print(f"Invalid input {raw_input4}\n")
                 except:
+                    print("test")
                     type_print(f"Invalid input {raw_input3}\n")
             else:
                 type_print("We are sold out of specialty items. Please feel free to check out our standard items.\n")
@@ -268,7 +282,7 @@ def shop(player):
 
 
 def old_man_brigham():
-    type_print("Well, hello there. You must be one of those adventuring types.\n")
+    type_print("\nWell, hello there. You must be one of those adventuring types.\n")
     index = 0
     while True:
         type_print("1. Talk to Old Man Brigham")
@@ -293,7 +307,7 @@ def old_man_brigham():
 
 
 def elder_liana():
-    type_print("Hello, I am the village elder. My name is Liana.\n")
+    type_print("\nHello, I am the village elder. My name is Liana.\n")
     index = 0
     while True:
         type_print("1. Talk to Elder Liana")
@@ -321,7 +335,7 @@ def elder_liana():
 # todo add option to sell boy up to 4 water balloons for 5 gold each. Will need to make boy Class to keep track of number of water baloons he has. 
 
 def small_boy(player):
-    type_print("Sell me something. Please sell me something with \"C\". [says the boy as he eagerly bounces up and down.]\n")
+    type_print("\nSell me something. Please sell me something with \"C\". [says the boy as he eagerly bounces up and down.]\n")
     while True:
         type_print("1. Show the small boy what's in your pack.")
         type_print("2. Back")
@@ -347,7 +361,7 @@ def small_boy(player):
                     type_print(f"Invalid input {raw_input}\n")
             # todo add option to sell boy up to 4 water balloons for 5 gold each
             # use boy_inventory to store water baloons he has purchased
-            elif player.playHasWaterBaloon():
+            elif player.playHasWaterBaloon() and boy.inventory_not_full():
                 type_print("A water baloon...I WANT IT. I'll buy it for 3 gold.\n")
                 type_print("1. Sell a water balloon.")
                 type_print("2. Back.")

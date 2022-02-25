@@ -18,11 +18,10 @@ rogue = Rogue(race = "human")
 
 
 def main(player):
-
-    type_print(f"With only {player.coin_purse} gold to your name, you head into town to find some work.\n")
+    type_print(f"\nWith only {player.coin_purse} gold to your name, you head into town to find some work.\n")
     town(player)
     while True:
-        type_print("What do you want to do?")
+        type_print("What do you want to do?\n")
         type_print("1. Fight your bounty")
         type_print("2. Go to town")
         type_print("3. View current bounty")
@@ -53,12 +52,13 @@ def main(player):
             player.print_status()
         elif raw_input == "6":
             if player.coin_purse >= 100:
-                type_print("You head back home and pay off your debt.\n")
+                player.coin_purse -= 100
+                type_print(f"You head back home and pay off your debt with {player.coin_purse} gold to spare.\n")
                 type_print("Congratulations. You won the game.\n")
                 type_print("Created by Stephen Doty\n")
                 break
             else:
-                type_print("You don't have the 100 gold required to pay off your debt. Better head back into town and find some work.\n6")
+                type_print("You don't have the 100 gold required to pay off your debt. Better head back into town and find some work.\n")
         elif raw_input == "7":
             type_print("Thanks for playing.\n")
             break
@@ -66,7 +66,8 @@ def main(player):
             type_print(f"Invalid input {raw_input}")
 
 def character_creation():
-    type_print("\nWelcome to \"Hunter RPG\" where you play as a bounty hunter and fight monsters to earn money. Your goal is to \nearn at least 100 gold to pay off some accrued debt.\n\nIt's time to create your character.\n")
+    print("________________________________________________________________________________________________\n")
+    type_print("Welcome to \"Hunter RPG\" where you play as a bounty hunter and fight monsters to earn money. Your goal is to \nearn at least 100 gold to pay off some accrued debt.\n\nIt's time to create your character.\n")
     type_print("Press \"Enter\" to continue")
     input()
     while True: 
@@ -114,13 +115,15 @@ def character_creation():
     return class_type, player_name
 
 # uncomment for character creation
-# class_type, player_name = character_creation()
-# player = class_type(race = "human", name = player_name)
+class_type, player_name = character_creation()
+player = class_type(race = "human", name = player_name)
 
 # comment out to enable character creation
-player = Barbarian(race = "human")
+# player = Barbarian(race = "human")
 
-player.coin_purse = 50
+player.coin_purse = 5
+
+player.inventory = []
 
 main(player)
 

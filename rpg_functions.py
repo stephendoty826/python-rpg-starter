@@ -16,25 +16,25 @@ def check_bounty(player):
 
 def check_inventory(player):
     if player.inventory == []:
-        type_print("You currently don't have any items. Be sure to check visit the shop the buy some.")
-        type_print(f"You currently have {player.coin_purse} gold.\n")
+        type_print("You currently don't have any items. Be sure to visit the shop the buy some.")
+        type_print(f"You have {player.coin_purse} gold.\n")
     else:
         type_print(f"You are carrying the following items.\n")
         for i in range(len(player.inventory)):
             type_print(f"{player.inventory[i].name}: - {player.inventory[i].description}")
-        type_print(f"You currently have {player.coin_purse} gold.\n")
+        type_print(f"You have {player.coin_purse} gold.\n")
 
 def use_item(player, enemy):
     if player.inventory == []:
-        type_print("You currently don't have any items. Be sure to check visit the shop the buy some.")
-        type_print(f"You currently have {player.coin_purse} gold.\n")
+        type_print("You currently don't have any items. Be sure to visit the shop the buy some.")
+        type_print(f"You have {player.coin_purse} gold.\n")
     else:
         type_print(f"You are carrying the following items. Which item would you like to use?\n")
         count = 1
         for item in player.inventory:
             type_print(f"{count}. {item.name}: - {item.description}")
             count += 1
-        type_print("> ", end = ' ')
+        print("> ", end = ' ')
         raw_input = input()
         print("________________________________________________________________________________________________\n")
         try:

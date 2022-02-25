@@ -41,6 +41,7 @@ def battle(player, enemy):
         if raw_input == "1":
             # Player attacks enemy
             player.attack(enemy)
+            #todo player.fire_serpent_burns is running and hurting the player even when he misses the fire serpent.
             player.fire_serpent_burns(enemy)
             if enemy.health <= 0:
                 type_print(f"The {enemy.race} is dead.\n")
@@ -105,11 +106,13 @@ def battle(player, enemy):
                 type_print(f"{player.name} is dead.")
                 print("________________________________________________________________________________________________\n")
         combat_turn += 1
+    #todo game crashes when player dies...this still tries to run and heal the player
     # player attempts to bandage their wounds after battle to regain a small amount of health. 
     if player.health < player.max_hp:
-        health_regen = randint(0, 2)
+        first_aid = randint(1, 3)
         player.health += health_regen
-        if health_regen != 0:
+        if first_aid == 3:
+            health_regen = randint(1, 2)
             if player.health >= player.max_hp:
                 player.health = player.max_hp
                 type_print(f"After the battle, you bandaged your wounds and are back up to full health.\n")

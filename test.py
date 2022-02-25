@@ -1,14 +1,7 @@
 
-dict1 = {
-  "name": "Stephen",
-  "Title": "TA"
-}
+arr = [1, 2, 3, 4, 5]
 
-dict2 = {
-  "name": "Jonathan",
-  "Title": "Media Director"
-}
+test = arr.pop(0)
 
-arr = [dict1, dict2]
-
-print(arr.index(dict2))
+print(arr)
+print(test)
