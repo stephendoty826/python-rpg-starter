@@ -64,7 +64,6 @@ def town(player):
                 if player.coin_purse < 5:
                     type_print("\nYou don't have enough gold to stay at the inn. Turn in some bounties to earn some money.")
                 else:
-                    #todo add description that resting at the inn will restore full health. Give Yes or No option
                     player.health = player.max_hp
                     player.coin_purse -= 5
                     type_print(f"\nYour health is fully restored to {player.health} HP. You now have {player.coin_purse} gold.")
@@ -97,11 +96,6 @@ def talk_to_locals(player):
             break
         else:
             type_print(f"Invalid input {raw_input}\n")
-
-
-# todo make class for bounties...maybe you can track them better and make methods to recreate standard bounties when they are first killed
-# standard_bounties = [goblin, shadow, troll]
-# specialty_bounties = [mudmug, stigg, undead_ned, big_nellie, lighthouse_shadow, fire_serpent]
 
 def bounty_board(player):
     # function to reset bounty board
@@ -329,11 +323,6 @@ def elder_liana():
         else:
             type_print(f"Invalid input {raw_input}\n")
 
-
-
-# boy_inventory = []
-# todo add option to sell boy up to 4 water balloons for 5 gold each. Will need to make boy Class to keep track of number of water baloons he has. 
-
 def small_boy(player):
     type_print("\nSell me something. Please sell me something with \"C\". [says the boy as he eagerly bounces up and down.]\n")
     while True:
@@ -359,10 +348,9 @@ def small_boy(player):
                     type_print("Oh, you're no fun. Well, if you change your mind, you know where to find me.\n")
                 else:
                     type_print(f"Invalid input {raw_input}\n")
-            # todo add option to sell boy up to 4 water balloons for 5 gold each
             # use boy_inventory to store water baloons he has purchased
             elif player.playHasWaterBaloon() and boy.inventory_not_full():
-                type_print("A water baloon...I WANT IT. I'll buy it for 3 gold.\n")
+                type_print("A water baloon...I WANT IT. Let me buy it from you.\n")
                 type_print("1. Sell a water balloon.")
                 type_print("2. Back.")
                 print("> ", end = ' ')
@@ -383,8 +371,6 @@ def small_boy(player):
             break
         else:
             type_print(f"Invalid input {raw_input}\n")
-        
-#todo continue setting up town
 
 
 

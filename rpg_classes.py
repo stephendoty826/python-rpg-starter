@@ -95,7 +95,7 @@ class Enemy(Character):
 
 
 class Barbarian(Player):
-    def __init__(self, race, has_bug = False, name = "Barbarian", health = 13, attack_power = 3, to_hit = 3, armor = 10, is_evading = False):
+    def __init__(self, race, has_bug = False, name = "Barbarian", health = 13, attack_power = 3, to_hit = 3, armor = 12, is_evading = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, has_bug, coin_purse = 0)
         self.is_evading = is_evading
 
@@ -118,7 +118,7 @@ class Barbarian(Player):
 
 
 class Medic(Player):
-    def __init__(self, race, has_bug = False, name = "Medic", health = 11, attack_power = 3, to_hit = 2, armor = 9, is_evading = False):
+    def __init__(self, race, has_bug = False, name = "Medic", health = 11, attack_power = 3, to_hit = 2, armor = 11, is_evading = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, has_bug, coin_purse = 0)
         self.is_evading = is_evading
 
@@ -135,7 +135,7 @@ class Medic(Player):
 
 
 class Rogue(Player):
-    def __init__(self, race, has_bug = False, name = "Rogue", health = 12, attack_power = 3, to_hit = 5, armor = 8, is_evading = False):
+    def __init__(self, race, has_bug = False, name = "Rogue", health = 12, attack_power = 3, to_hit = 5, armor = 10, is_evading = False):
         super().__init__(race, name, health, attack_power, to_hit, armor, has_bug, coin_purse = 0)
         self.is_evading = is_evading
 

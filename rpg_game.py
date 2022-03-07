@@ -20,7 +20,7 @@ rogue = Rogue(race = "human")
 def main(player):
     type_print(f"\nWith only {player.coin_purse} gold to your name, you head into town to find some work.\n")
     town(player)
-    while True:
+    while player.alive():
         type_print("What do you want to do?\n")
         type_print("1. Fight your bounty")
         type_print("2. Go to town")
@@ -63,6 +63,13 @@ def main(player):
             break
         else:
             type_print(f"Invalid input {raw_input}")
+    type_print("Would you like to play again?")
+    type_print("1. Yes")
+    type_print("2. No")
+    print("> ", end = ' ')
+    play_again = input()
+    if play_again == "1":
+        character_creation()
 
 def character_creation():
     print("________________________________________________________________________________________________\n")
@@ -71,9 +78,9 @@ def character_creation():
     input()
     while True: 
         type_print("You can choose between three different classes - Barbarian, Medic, and Rogue.\n")
-        type_print("1. The Barbarian has the most health (13 HP) and the most armor (10 AC) and will occasionally do double damage.")
-        type_print("2. The Medic has less health (11 HP) but decent armor (9 AC) and will occasionally heal a bit in battle.")
-        type_print("3. The Rogue has decent health (12 HP) and the lowest armor (8 AC) but will occasionally take half damage from attacks.\n")
+        type_print("1. The Barbarian has the most health (13 HP) and the most armor (12 AC) and will occasionally do double damage.")
+        type_print("2. The Medic has less health (11 HP) but decent armor (11 AC) and will occasionally heal a bit in battle.")
+        type_print("3. The Rogue has decent health (12 HP) and the lowest armor (10 AC) but will occasionally take half damage from attacks.\n")
         type_print("Which class could you like to play as?")
         print("> ", end = ' ')
         class_names = ["Barbarian", "Medic", "Rogue"]
@@ -111,7 +118,10 @@ def character_creation():
             type_print(f"Invalid input {raw_input}\n")
     class_type = classes[int(raw_input) - 1]
     player_name = raw_input3
-    return class_type, player_name
+    player = class_type(race = "human", name = player_name)
+    player.coin_purse = 5
+    main(player)
+    # return class_type, player_name
 
 # uncomment for character creation
 # class_type, player_name = character_creation()

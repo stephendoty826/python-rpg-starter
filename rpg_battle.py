@@ -111,8 +111,6 @@ def battle(player, enemy):
         combat_turn += 1
         if is_fleeing:
             break
-    #todo game crashes when player dies...this still tries to run and heal the player
-    #todo test the below code to see if game still crashes when player dies and if first_aid function runs properly
     # player attempts to bandage their wounds after battle to regain a small amount of health. 
     if player.health < player.max_hp and player.health > 0:
         first_aid(player)
