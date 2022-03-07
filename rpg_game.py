@@ -34,7 +34,6 @@ def main(player):
         raw_input = input()
         print("________________________________________________________________________________________________\n")
         if raw_input == "1":
-            # choose enemy function
             if player.current_bounty == []:
                 type_print("You currently don't have a bounty. Be sure to check the bounty board in town to grab one.\n ")
             else:
@@ -115,11 +114,11 @@ def character_creation():
     return class_type, player_name
 
 # uncomment for character creation
-class_type, player_name = character_creation()
-player = class_type(race = "human", name = player_name)
+# class_type, player_name = character_creation()
+# player = class_type(race = "human", name = player_name)
 
 # comment out to enable character creation
-# player = Barbarian(race = "human")
+player = Barbarian(race = "human")
 
 player.coin_purse = 5
 

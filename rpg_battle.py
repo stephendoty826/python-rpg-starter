@@ -24,6 +24,7 @@ Super_Tonic = rpg_classes.Super_Tonic
 #todo implement multiple heros/enemies? 
 
 def battle(player, enemy):
+    is_fleeing = False
     combat_turn = 1
     is_evading = -1
     type_print(f"\nYou spot your bounty in the distance, a lone {enemy.race}.\n")
@@ -40,9 +41,9 @@ def battle(player, enemy):
         print("________________________________________________________________________________________________\n")
         if raw_input == "1":
             # Player attacks enemy
-            player.attack(enemy)
-            #todo player.fire_serpent_burns is running and hurting the player even when he misses the fire serpent.
-            player.fire_serpent_burns(enemy)
+            player_hit = player.attack(enemy)
+            if player_hit:
+                player.fire_serpent_burns(enemy)
             if enemy.health <= 0:
                 type_print(f"The {enemy.race} is dead.\n")
                 if Helper.is_zombie(enemy): # enemy is a zombie and it can't be killed. 
@@ -76,10 +77,12 @@ def battle(player, enemy):
         elif raw_input == "4":
             pass
         elif raw_input == "5":
-            type_print("You flee and from the fight.\n")
-            break
+            type_print("You attempt to flee the battle.\n")
+            # breaks out of loop after enemy attacks so player can't spam first_aid functionality
+            is_fleeing = True
         else:
             type_print(f"Invalid input {raw_input}\n")
+        # enemy attacks if not dead
         if enemy.health > 0:
             # Enemy attacks player
             if Helper.is_barbarian(player):
@@ -106,20 +109,12 @@ def battle(player, enemy):
                 type_print(f"{player.name} is dead.")
                 print("________________________________________________________________________________________________\n")
         combat_turn += 1
+        if is_fleeing:
+            break
     #todo game crashes when player dies...this still tries to run and heal the player
+    #todo test the below code to see if game still crashes when player dies and if first_aid function runs properly
     # player attempts to bandage their wounds after battle to regain a small amount of health. 
-    if player.health < player.max_hp:
-        first_aid = randint(1, 3)
-        player.health += health_regen
-        if first_aid == 3:
-            health_regen = randint(1, 2)
-            if player.health >= player.max_hp:
-                player.health = player.max_hp
-                type_print(f"After the battle, you bandaged your wounds and are back up to full health.\n")
-            else:
-                type_print(f"After the battle, you bandage your wounds and regain {health_regen} health.\n")
-        else:
-            type_print(f"After the battle, you attempt to bandage your wounds but fail to do any healing.\n")
+    if player.health < player.max_hp and player.health > 0:
+        first_aid(player)
 
-    
 

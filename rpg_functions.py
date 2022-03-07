@@ -57,6 +57,20 @@ def slow_type_print(string):
         time.sleep(0.0325)
     print()
 
+def first_aid(player):
+    if player.health < player.max_hp:
+        healing = randint(1, 3)
+        if healing == 3:
+            health_regen = randint(1, 2)
+            player.health += health_regen
+            if player.health >= player.max_hp:
+                player.health = player.max_hp
+                type_print(f"After the battle, you bandaged your wounds and are back up to full health.\n")
+            else:
+                type_print(f"After the battle, you bandage your wounds and regain {health_regen} health.\n")
+        else:
+            type_print(f"After the battle, you attempt to bandage your wounds but fail to do any healing.\n")
+
 #todo combat options differ depending on the type of player character
 
 #todo have player races differ in some way (super special ability or other?)

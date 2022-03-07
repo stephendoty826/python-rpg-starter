@@ -119,9 +119,9 @@ def bounty_board(player):
         print("________________________________________________________________________________________________\n")
         if raw_input == "1":
             type_print("The following standard bounties are avaiable. Please select which one you would like to take.\n")
-            type_print("1. Goblin - 3 gold")
-            type_print("2. Shadow - 6 gold")
-            type_print("3. Troll - 10 gold")
+            type_print(f"1. Goblin - {goblin.bounty} gold")
+            type_print(f"2. Shadow - {shadow.bounty} gold")
+            type_print(f"3. Troll - {troll.bounty} gold")
             type_print("4. Back")
             type_print(f"You have {player.coin_purse} gold.")
             print("> ", end = ' ')
@@ -253,7 +253,7 @@ def shop(player):
                             type_print("You don't have enough gold for that.")
                             pass
                         else:
-                            type_print(f"You have selected {specialty_items[int(raw_input3) - 1].name}. Purchase this item {specialty_items[int(raw_input3) - 1].price} gold?\n")
+                            type_print(f"You have selected {specialty_items[int(raw_input3) - 1].name}. Purchase this item for {specialty_items[int(raw_input3) - 1].price} gold?\n")
                             type_print("1. Yes")
                             type_print("2. No")
                             type_print(f"You have {player.coin_purse} gold.")
